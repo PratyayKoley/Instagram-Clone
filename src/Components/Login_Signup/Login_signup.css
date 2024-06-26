@@ -1,0 +1,145 @@
+.bg-body {
+  width: 100vw;
+  height: fit-content;
+}
+.bg-body .img-container {
+  width: 30em;
+  height: 40em;
+}
+.bg-body .img-container .img-phone {
+  height: 100%;
+  object-fit: contain;
+}
+.bg-body .authenticate-container {
+  width: 21em;
+  height: 40em;
+}
+.carousel {
+  top: 0;
+}
+.carousel-item img {
+  width: 30em;
+  height: 34em;
+  object-fit: contain;
+  margin-left: 2.8em;
+  margin-top: 1.6em;
+}
+.login-field {
+  width: 100%;
+  height: fit-content;
+  border: 2px solid #e4e4e4;
+}
+@media only screen and (max-width: 875px) {
+  .img-container {
+    display: none;
+  }
+}
+/* General styles for placeholders and labels */
+.form-floating label {
+  height: fit-content;
+  padding: 0.6em 0em 0em 0.7em;
+  font-size: 0.8em;
+  color: #737373;
+}
+#floatingInput,
+#floatingPassword,
+#signupfloatingEmail,
+#signupfloatingText,
+#signupfloatingText2,
+#signupfloatingPassword {
+  font-size: 0.8em;
+  z-index: 999;
+  min-height: 3em !important;
+  height: 1.5em !important;
+}
+.firstline {
+  width: 100px;
+  height: 1px;
+  flex: 1;
+  background-color: #737373;
+}
+.or {
+  font-size: 0.7em;
+  color: #737373;
+  margin: 0px 15px;
+}
+.secondline {
+  flex: 1;
+  width: 100px;
+  height: 1px;
+  background-color: #737373;
+}
+.facebook span {
+  color: #385185;
+}
+.facebook span svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+.forgotpass span {
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.signup {
+  width: 100%;
+  height: 3.5em;
+  border: 2px solid #e4e4e4;
+}
+.signup > span {
+  font-size: 0.9em;
+}
+.signup span:nth-child(2) {
+  cursor: pointer;
+}
+.getapp {
+  width: 100%;
+  height: fit-content;
+}
+.getapp > span {
+  font-size: 0.9em;
+}
+.getapp .getinsta {
+  width: 100%;
+}
+.getapp .getinsta img {
+  width: 8em;
+  height: 5em;
+  object-fit: contain;
+  cursor: pointer;
+}
+form .signininfo {
+  color: #737373;
+}
+.facebook-signup span svg {
+  width: 1.2em;
+  height: 1.2em;
+}
+.terms {
+  line-height: 1;
+}
+.terms span {
+  color: #737373;
+  font-size: 0.72em;
+}
+.terms a {
+  font-size: 0.72em;
+}
+.policies span {
+  color: #737373;
+  font-size: 0.72em;
+}
+.bg-body .signup-container {
+    width: 21em;
+}
+.login {
+  width: 100%;
+  height: 5em;
+  border: 2px solid #e4e4e4;
+}
+.login > span {
+  font-size: 0.9em;
+}
+.login span:nth-child(2) {
+  cursor: pointer;
+}

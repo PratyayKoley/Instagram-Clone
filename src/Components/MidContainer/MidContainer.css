@@ -1,0 +1,199 @@
+.mid_container {
+  width: 44em;
+  border-left: 1px solid var(--borderLeft);
+  overflow-y: auto;
+  height: 100vh;
+  padding-left: 3rem;
+}
+.stories_container {
+  min-width: calc(100% - 5em);
+  height: max-content;
+  margin-left: 5em;
+  margin-top: 2em;
+}
+.stories_container > div {
+  flex-shrink: 0;
+}
+.stories_container::-webkit-scrollbar {
+  display: none;
+}
+.circle {
+  width: 65px;
+  height: 65px;
+  position: relative;
+  cursor: pointer;
+}
+.circle::before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  inset: 0px;
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+}
+.circle.watched::before{
+  background: var(--storyBorderColor);
+}
+.circle span:first-child {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  border: 3px solid var(--addStoryBackgroundColor);
+  z-index: 1;
+}
+.stories_container span:nth-child(2) {
+  width: 6em;
+  text-align: center;
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.7em;
+}
+.stories_container img:last-child {
+  right: 0;
+  top: 1rem;
+  cursor: pointer;
+}
+.post_container {
+  display: flex;
+  min-width: calc(100% - 5em);
+  flex: 1;
+  margin-left: 5em;
+  margin-top: 2em;
+}
+.post_container > div {
+  flex-shrink: 0;
+}
+.post_container::-webkit-scrollbar {
+  display: none;
+}
+.posts {
+  width: 25em;
+  height: max-content;
+}
+.user_info span:nth-child(2) {
+  font-size: 0.9em;
+}
+.user_info span:last-child {
+  font-size: 0.9em;
+  color: var(--secondaryTextColor);
+}
+.icons img:hover, .icons svg:hover {
+  cursor: pointer;
+}
+header .query_for_post{
+  cursor: pointer;
+}
+footer .num_likes {
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+}
+footer .comment span {
+  font-size: 0.9em;
+}
+footer .comment span:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+  cursor: pointer;
+}
+footer .comment span:nth-child(2) {
+  overflow: hidden;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+}
+footer .comment span:nth-child(3) {
+  color: var(--secondaryTextColor);
+  cursor: pointer;
+}
+footer .num_comment {
+  color: var(--secondaryTextColor);
+  font-size: 0.9em;
+  cursor: pointer;
+}
+footer .input_comment {
+  font-size: 0.9em;
+}
+.input_comment input::placeholder {
+  color: var(--secondaryTextColor);
+}
+footer .input_comment .postbtn {
+  cursor: pointer;
+}
+.post_container .modal {
+  --bs-modal-width: 27em;
+}
+.reportpost > div{
+  cursor: pointer;
+  font-size: 0.9em;
+  padding: 1em 0em;
+}
+
+.imagemodal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.content {
+  width: auto;
+  height: 100%;
+  max-height: 95vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content img {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+.navbarResize {
+  width: 100%;
+  max-width: 40em;
+  height: 2em;
+  display: none;
+}
+.navResizeHr, .storiesHr{
+  display: none;
+}
+
+.searchinputResize .search-input {
+  width: 75%; 
+}
+
+@media (max-width: 768px) {
+  .searchinputResize .search-input {
+    width: 75%;
+  }
+}
+
+.navbarResize img {
+  cursor: pointer;
+}
+
+.footerResize{
+  margin-left: 5em;
+  height: 3em;
+  display: none;
+}
+.footerResizeContainer {
+  height: inherit;
+  border-top: 1px solid #8a8a8a;
+}
+

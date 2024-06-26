@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "dp_url": "https://play-lh.googleusercontent.com/PGqM_N-ARAFRobIaJ9ys5wyjK83cl3PwoeAyrmYuBh-Hb-CXdXU2GSTyTyTvSNpK9A=w526-h296-rw",
+        "story_url": "https://i.pinimg.com/736x/50/93/df/5093df89e8cafda8cff0e5f90a593e47.jpg",
+        "user_name": "Pratyay Koley",
+        "post_url": "https://content.jdmagicbox.com/comp/mumbai/b1/022pxx22.xx22.170727162359.n8b1/catalogue/i-tech-computer-education-mira-road-east-thane-computer-training-institutes-1g42ieytmj.jpg",
+        "time_posted": "20h",
+        "last_active": "Active 5h ago",
+        "num_likes": 1500,
+        "desc": "I study in Itech and this page is built using React which is often termed as a single page application. I study under Zulkar Sir.",
+        "num_comments": 3000
+    },
+    {
+        "id": 2,
+        "dp_url": "https://ashisheditz.com/wp-content/uploads/2023/11/nice-dp-pic-new.jpg",
+        "story_url": "https://quantumai.google/static/site-assets/images/marketing/quantum-computing/hero-heading-mobile.jpg",
+        "user_name": "Anushka Karmakar",
+        "post_url": "https://media.licdn.com/dms/image/D5612AQGUz_5u0yHzSg/article-cover_image-shrink_600_2000/0/1696655165640?e=2147483647&v=beta&t=jsHkeY3K1ZOdxlyCE33LgShjYw_PXbtD6N6wTLdOt6o",
+        "time_posted": "10h",
+        "last_active": "Active 2h ago",
+        "num_likes": 500,
+        "desc": "Exploring the world of web development!",
+        "num_comments": 200
+    },
+    {
+        "id": 3,
+        "dp_url": "https://i.pinimg.com/736x/68/c5/0a/68c50ac30605fdb8ce0836aaeaacd48c.jpg",
+        "story_url": "https://shayarkhana.com/wp-content/uploads/2023/01/2.jpg",
+        "user_name": "Nikita Chauhan",
+        "post_url": "https://www.wikihow.com/images/thumb/6/6f/Learn-New-Things-Step-1-Version-3.jpg/v4-460px-Learn-New-Things-Step-1-Version-3.jpg.webp",
+        "time_posted": "15h",
+        "last_active": "Active 10h ago",
+        "num_likes": 700,
+        "desc": "Learning new things every day!",
+        "num_comments": 100
+    },
+    {
+        "id": 4,
+        "dp_url": "https://pbs.twimg.com/profile_images/1358630124673847300/IS8748v2_400x400.jpg",
+        "story_url": "https://m.media-amazon.com/images/I/81ilCcnwayL._AC_UF1000,1000_QL80_.jpg",
+        "user_name": "Ravinder Singh",
+        "post_url": "https://i.pinimg.com/originals/a1/ff/6f/a1ff6f9090404021c40a34662f3c75c7.jpg",
+        "time_posted": "1d",
+        "last_active": "Active 12h ago",
+        "num_likes": 1200,
+        "desc": "Sharing my thoughts with the world!",
+        "num_comments": 400
+    },
+    {
+        "id": 5,
+        "dp_url": "https://in.bmscdn.com/iedb/artist/images/website/poster/large/kiara-advani-1043272-1655467015.jpg",
+        "story_url": "https://img.etimg.com/thumb/width-1600,height-900,imgsize-45382,resizemode-75,msid-96369154/news/new-updates/sidharth-malhotra-drops-big-hint-about-wedding-with-kiara-advani-read-here.jpg",
+        "user_name": "Kiara Advani",
+        "post_url": "https://cdn.tinybuddha.com/wp-content/uploads/2010/05/Kid-with-hands-up.jpg",
+        "time_posted": "5h",
+        "last_active": "Active 1h ago",
+        "num_likes": 200,
+        "desc": "Enjoying life to the fullest!",
+        "num_comments": 50
+    },
+    {
+        "id": 6,
+        "dp_url": "https://w0.peakpx.com/wallpaper/962/831/HD-wallpaper-sad-boys-dp-boy-in-dark.jpg",
+        "story_url": "https://i.pinimg.com/736x/10/26/0e/10260e239c089905a4665a9215d0f03f.jpg",
+        "user_name": "Sahil Adak",
+        "post_url": "https://static.statusqueen.com/dpimages/thumbnail/gym_boy_dp_image-3172.jpg",
+        "time_posted": "2d",
+        "last_active": "Active 1d ago",
+        "num_likes": 300,
+        "desc": "Feeling inspired today!",
+        "num_comments": 150
+    },
+    {
+        "id": 7,
+        "dp_url": "https://pbs.twimg.com/media/EbaKhc0U0AAvyMV.jpg",
+        "story_url": "https://m.media-amazon.com/images/M/MV5BNTkzNjJhYjQtNjU0Yy00Y2M3LWI2ZDgtNDRhZmNlNDFjMjQ5XkEyXkFqcGdeQXVyODk2ODI3MTU@._V1_.jpg",
+        "user_name": "Doraemon",
+        "post_url": "https://i.pinimg.com/736x/40/19/64/401964134b32b2c3acb561d936e16d83.jpg",
+        "time_posted": "3h",
+        "last_active": "Active 30m ago",
+        "num_likes": 100,
+        "desc": "Exploring the world with Doraemon!",
+        "num_comments": 20
+    },
+    {
+        "id": 8,
+        "dp_url": "https://documents.iplt20.com/ipl/IPLHeadshot2024/57.png",
+        "story_url": "https://images.deccanherald.com/deccanherald%2F2024-03%2Fb90c47e5-cec9-4f7b-b7c4-14ac433ef089%2FMS_Dhoni_s_new_look_ahead_of_IPL__11_.jpg?rect=0%2C0%2C540%2C720",
+        "user_name": "Dhoni",
+        "post_url": "https://im.rediff.com/cricket/2021/apr/06dhoni1.jpg",
+        "time_posted": "8h",
+        "last_active": "Active 3h ago",
+        "num_likes": 800,
+        "desc": "Inspiring others with my cricket journey!",
+        "num_comments": 250
+    },
+    {
+        "id": 9,
+        "dp_url": "https://w0.peakpx.com/wallpaper/211/201/HD-wallpaper-moonlight-night-nature.jpg",
+        "story_url": "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg",
+        "user_name": "Prantik",
+        "post_url": "https://www.esteemprime.com/wp-content/uploads/2017/07/MG_8340-A_Low_Res_Crop-1024x512.jpg",
+        "time_posted": "12h",
+        "last_active": "Active 6h ago",
+        "num_likes": 400,
+        "desc": "Nature lover and photography enthusiast!",
+        "num_comments": 80
+    },
+    {
+        "id": 10,
+        "dp_url": "https://cdn4.sharechat.com/compressed_gm_40_img_358182_224155b1_1695205355998_sc.jpg?tenant=sc&referrer=pwa-sharechat-service&f=998_sc.jpg",
+        "story_url": "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHx8fDE3MTgwMzU4NjV8MA&ixlib=rb-4.0.3",
+        "user_name": "Titli",
+        "post_url": "https://i0.wp.com/lynettemburrows.com/wp-content/uploads/2019/04/Dream-Big.png?fit=560%2C315&ssl=1",
+        "time_posted": "6h",
+        "last_active": "Active 2h ago",
+        "num_likes": 600,
+        "desc": "Dreaming big and making it happen!",
+        "num_comments": 180
+    }
+]

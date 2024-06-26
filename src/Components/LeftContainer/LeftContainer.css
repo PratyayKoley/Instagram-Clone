@@ -1,0 +1,345 @@
+.icon_container {
+  margin-bottom: 1.2rem !important;
+  cursor: pointer;
+}
+@media (min-width: 1263px) {
+  .icon_container #instalogo {
+    display: none;
+  }
+}
+.navbar {
+  margin: 0.5em;
+  row-gap: 0.4em;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0; 
+  left: 0;
+  right: 0; 
+  bottom: 0;
+}
+.navbar li {
+  cursor: pointer;
+  padding: 0.8em 1em;
+  transition: all 0.3s;
+}
+@media (min-width: 1263px) {
+  .navbar li,
+  .navfoot li {
+    width: 14.2em;
+  }
+}
+.navbar li:hover {
+  background-color: var(--navbarHover);
+  border-radius: 0.5em;
+}
+.navbar li:hover img {
+  transform: scale(1.05);
+}
+.navfoot {
+  row-gap: 0.4em;
+  position: absolute;
+  bottom: 1.2em;
+}
+.navfoot li {
+  cursor: pointer;
+  padding: 0.8em 1em;
+  transition: all 0.3s;
+}
+.navfoot li:hover {
+  background-color: var(--navbarHover);
+  border-radius: 0.5em;
+}
+.navfoot li:hover img {
+  transform: scale(1.05);
+}
+.threads {
+  margin-left: 4em;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.navfoot li:hover .threads {
+  opacity: 1;
+}
+#create {
+  position: relative;
+}
+.crt_block {
+  width: 12.5em;
+  height: max-content;
+  background-color: var(--modalBackgroundColor);
+  border-radius: 0.4em;
+  position: absolute;
+  left: 0em;
+  bottom: -2.5em;
+  z-index: 999;
+  margin: 0.2em;
+  cursor: pointer;
+  transform: translateY(15%);
+  visibility: hidden;
+  transition: all 0.2s;
+  box-shadow: var(--modalShadow);
+}
+#create.show + .crt_block {
+  transform: translateY(0%);
+  visibility: visible;
+}
+.post {
+  border-top-right-radius: 0.4em;
+  border-top-left-radius: 0.4em;
+  padding: 0.7em 1em;
+}
+.post:hover {
+  background: var(--createModalHover);
+}
+.live_video {
+  border-bottom-left-radius: 0.4em;
+  border-bottom-right-radius: 0.4em;
+  padding: 0.6em 1em;
+}
+.live_video:hover {
+  background: var(--createModalHover);
+}
+.modal-content {
+  background-color: var(--modalBackgroundColor);
+  box-shadow: var(--modalShadow);
+}
+.post_modal {
+  min-height: 30em;
+}
+.modal {
+  --bs-modal-width: 35em;
+}
+.video_modal span {
+  font-size: 0.85em;
+  color: var(--secondaryTextColor);
+}
+.video_modal input[type="text"] {
+  background: var(--live_videoInputBackground);
+  font-size: 0.9em;
+  font-weight: lighter;
+}
+.video_modal ::placeholder {
+  color: #a8a8a8;
+}
+.video_modal .slct {
+  font-size: 1em;
+  cursor: pointer;
+}
+.video_modal .slct:hover {
+  color: #8a8a8a;
+}
+.modal-wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: var(--setAudienceModalColor);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.slctmodal {
+  width: 24em;
+  height: fit-content;
+  cursor: pointer;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.slctmodal .public {
+  width: 100%;
+  padding: 1em;
+  padding-bottom: 0;
+  background: var(--modalBackgroundColor);
+  border: none;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+}
+.slctmodal .practice {
+  width: 100%;
+  padding: 1em;
+  padding-bottom: 0;
+  background: var(--modalBackgroundColor);
+  border-top: 1px solid var(--setAudienceBorder);
+}
+.slctmodal .cancel {
+  width: 100%;
+  padding: 1em;
+  background: var(--modalBackgroundColor);
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  border-top: 1px solid var(--setAudienceBorder);
+}
+#more {
+  position: relative;
+}
+.moreoptions {
+  width: 17em;
+  height: max-content;
+  background-color: var(--modalBackgroundColor);
+  border-radius: 1em;
+  position: fixed;
+  bottom: 5em;
+  z-index: 999;
+  cursor: pointer;
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  box-shadow: var(--modalShadow);
+}
+#more.show + .moreoptions {
+  transform: translateX(0%);
+  visibility: visible;
+}
+.moreoptions .elements {
+  font-weight: lighter;
+  margin: 0 0.5em;
+  padding: 0.8em 1em;
+  border-radius: 0.7em;
+  transition: all 0.3s ease-in-out;
+}
+.moreoptions .elements:hover {
+  letter-spacing: 0.1em;
+  background-color: var(--moreHover); 
+}
+.switch_appearance {
+  width: 17em;
+  height: max-content;
+  background-color: var(--modalBackgroundColor);
+  border-radius: 1em;
+  position: fixed;
+  bottom: 5em;
+  z-index: 999;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--modalShadow);
+}
+
+.switch_appearance.show {
+  transform: translateX(0%);
+  visibility: visible;
+}
+
+.switch_appearance .head {
+  padding: 0.7em 1em;
+}
+.switch_appearance .dmode {
+  font-weight: lighter;
+  margin: 0 0.5em;
+  padding: 0.8em 1em;
+  border-radius: 0.7em;
+}
+.switch_appearance .dmode:hover {
+  background-color: var(--moreHover);
+  cursor: pointer;
+}
+.form-check-input {
+  background-color: #dbdfe4 !important;
+  border-color: #dbdfe4 !important;
+}
+.form-switch .form-check-input {
+  --bs-form-switch-bg: url(data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27><circle r=%273%27 fill=%27%23fff%27/></svg>);
+}
+.form-check-input:checked {
+  background-color: #f8f9f9;
+  border-color: #f8f9f9;
+}
+.form-switch .form-check-input:checked {
+  --bs-form-switch-bg: url(data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27><circle r=%273%27 fill=%27%23000%27/></svg>);
+}
+.searchmodal,
+.notifymodal,
+.messagemodal {
+  border-right: 1px solid var(--modalBackgroundColor) !important;
+  margin-left: 4.5em;
+}
+.searchinput form input::placeholder {
+  font-weight: lighter;
+  color: #8a8a8a;
+}
+.searchmodal .offcanvas-body::-webkit-scrollbar, .notifymodal::-webkit-scrollbar, .messagemodal .offcanvas-body::-webkit-scrollbar {
+  width: 0.3em;
+  margin-right: 0.2em;
+}
+.searchmodal .offcanvas-body::-webkit-scrollbar-track, .notifymodal::-webkit-scrollbar-track, .messagemodal .offcanvas-body::-webkit-scrollbar-track {
+  background: var(--scrollbarTrack);
+  border-radius: 5em;
+}
+.searchmodal .offcanvas-body::-webkit-scrollbar-thumb, .notifymodal::-webkit-scrollbar-thumb, .messagemodal .offcanvas-body::-webkit-scrollbar-thumb {
+  background: var(--scrollbarThumb);
+  border-radius: 5em;
+}
+.pop .acc-wrap img {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  object-fit: contain;
+}
+.pop .acc-wrap span {
+  font-size: 0.9em;
+}
+.follow button {
+  font-size: 0.9em;
+}
+.followups span:nth-child(2)
+{
+  color: #8a8a8a;
+}
+.pop:hover, .meta:hover {
+  cursor: pointer;
+}
+.meta img {
+  width: 4em;
+  height: 4em;
+  object-fit: contain;
+}
+.meta span:nth-child(2){
+  font-size: 0.9em;
+}
+.meta span:first-child{
+  color: #8a8a8a;
+}
+.messagemodal .offcanvas-header .acc .switch_acc, .messagemodal .offcanvas-header .acc img:nth-child(2), .messagemodal .offcanvas-header .msgtype {
+  cursor: pointer;
+}
+.navmessage li{
+  list-style-type: none;
+}
+.msg .msg-wrap img {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+}
+.msg .msg-wrap span {
+  font-size: 0.95em;
+}
+.offcanvas-body .hide .eyeicon .eyeimg {
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
+  background-color: var(--hiddenBackground);
+}
+.offcanvas-body .hide .eyeicon span{
+  font-size: 0.9em;
+  font-weight: lighter;
+}
+.msg:hover, .hide:hover{
+  background-color: var(--messageHover);
+  border-radius: 2em;
+  cursor: pointer;
+}
+.reportmodal{
+  --bs-modal-width: 25rem;
+}
+.reportmodal .buttons .addfile {
+  background-color: var(--hiddenBackground);
+  color: var(--textColor);
+}
+.reportmodal .para {
+  font-size: 0.8rem;
+  color: var(--secondaryTextColor);
+}

@@ -1,0 +1,106 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.web_bg {
+  height: 100vh;
+}
+:root{
+  --backgroundColor: #000;
+  --textColor: #fff;
+  --modalBackgroundColor: #262626; 
+  --navbarHover: #1a1a1a;
+  --createModalHover: #323436;
+  --setAudienceModalColor: rgba(0, 0, 0, 0.5);
+  --moreHover: #4a4a4a;
+  --modalShadow: none;
+  --hiddenBackground: #363636;
+  --messageHover: #262626;
+  --live_videoInputBackground: #1a1a1a;
+  --secondaryTextColor: #a8a8a8;
+  --setAudienceBorder: #363636;
+  --addStoryBackgroundColor: #121212;
+  --addStoryBorderColor: #343434;
+  --profileActiveTab: #a8a8a8;
+  --storyBorderColor: #333333;
+  --rightContainerButton: #0078c6;
+  --rightContainerButtonHover: #fff;
+  --borderLeft: #2a2a2a;
+  --scrollbarTrack: #1a1a1a;
+  --scrollbarThumb: #262626;
+}
+@media only screen and (max-width: 1263px) {
+  .navbar li span,
+  .navfoot li span {
+    display: none;
+  }
+  .icon_container img:nth-child(2) {
+    display: none;
+  }
+  .icon_container #instalogo {
+    display: block;
+  }
+  .navbar li,
+  .navfoot li {
+    width: fit-content;
+  }
+  .navfoot li .threads {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1160px) {
+  .right_container .accwrapper,
+  .right_container .suggestedforyou,
+  .right_container .footer {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .navfoot li:first-child {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 766px) {
+  .mid_container .stories_container,
+  .mid_container .post_container {
+    margin-left: 0em !important;
+  }
+  .left_container,
+  .right_container {
+    display: none !important;
+  }
+  .right_container {
+    padding: 0em !important;
+    margin-left: 0em !important;
+  }
+  .mid_container {
+    width: 100% !important;
+    padding-left: 0% !important;
+    padding: 0em 1em !important;
+  }
+  .navbarResize,
+  .navResizeHr {
+    display: flex !important;
+  }
+  .footerResize {
+    margin-left: 0em !important;
+    display: block !important;
+  }
+  .profile::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media only screen and (max-width: 440px) {
+  .post_container {
+    display: block !important;
+  }
+  .posts {
+    width: 100% !important;
+  }
+}
+@media only screen and (max-width: 426px) {
+  .storiesHr {
+    display: block !important;
+  }
+}

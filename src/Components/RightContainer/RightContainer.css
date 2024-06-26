@@ -1,0 +1,82 @@
+.right_container {
+  height: max-content;
+  flex: 1;
+  padding: 3rem;
+  margin-left: 3rem;
+  display: flex;
+}
+.right_container .accwrapper,
+.right_container .suggestedforyou,
+.right_container .footer {
+  width: 21em;
+}
+
+.right_container .accwrapper .own_acc img:first-child {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  cursor: pointer;
+}
+.right_container .accwrapper .own_acc .accname_username {
+  font-size: 0.8em;
+}
+.right_container .accwrapper .own_acc .accname_username span:first-child {
+  cursor: pointer;
+}
+.right_container .accwrapper .own_acc .accname_username span:last-child {
+  color: var(--secondaryTextColor);
+}
+.right_container .accwrapper .switchaccbtn span {
+  font-size: 0.8em;
+  color: var(--rightContainerButton);
+  font-weight: 600;
+  cursor: pointer;
+}
+.right_container .accwrapper .switchaccbtn span:hover {
+  color: var(--rightContainerButtonHover);
+  scale: 1.01;
+}
+.right_container .suggestedforyou .switchaccbtn span {
+  color: var(--textColor);
+  font-size: 0.8em;
+  font-weight: 600;
+  cursor: pointer;
+}
+.right_container .suggestedforyou .switchaccbtn span:hover {
+  color: #a8a8a8;
+}
+.right_container .suggestedforyou span {
+  font-size: 0.9em;
+  color: #a8a8a8;
+}
+.right_container .footer {
+  color: #a8a8a8;
+  font-weight: lighter;
+}
+.right_container .footer .navs {
+  line-height: 0.9em;
+}
+.right_container .footer .navs a {
+  text-decoration: none;
+  color: #a8a8a8;
+}
+.right_container .footer .navs a:hover {
+  text-decoration: underline;
+}
+.right_container .footer .navs a > span {
+  font-size: 0.75em;
+  flex: 0 1 auto;
+}
+.right_container .footer .navs a::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 2px;
+  margin: 0 0.3em 0.1em 0.3em;
+  background-color: #a8a8a8;
+}
+.right_container .footer .copyright span {
+  font-size: 0.75em;
+}

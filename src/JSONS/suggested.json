@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "dp_url": "https://i.pinimg.com/736x/09/62/a4/0962a412cd5df4bf2e0c9b2852ea948f.jpg",
+        "accname": "The_Mighty_Thor",
+        "username": "Suggested for you"
+    },
+    {
+        "id": 2,
+        "dp_url": "https://cdn.bestmovie.it/wp-content/uploads/2021/06/iron-man.jpg",
+        "accname": "I_am_Iron_Man",
+        "username": "New to Instagram"
+    },
+    {
+        "id": 3,
+        "dp_url": "https://wallpapers.com/images/hd/captain-america-android-0aqaztdwgpz41epy.jpg",
+        "accname": "Captain_America",
+        "username": "Suggested for you"
+    },
+    {
+        "id": 4,
+        "dp_url": "https://static1.srcdn.com/wordpress/wp-content/uploads/2023/03/capmarvel.jpg",
+        "accname": "Captain_Marvel",
+        "username": "New to Instagram"
+    },
+    {
+        "id": 5,
+        "dp_url": "https://i.pinimg.com/736x/83/1f/01/831f015888b5a0cd588e89b865ed12d0.jpg",
+        "accname": "Doctor_Strange",
+        "username": "Suggested for you"
+    }
+]

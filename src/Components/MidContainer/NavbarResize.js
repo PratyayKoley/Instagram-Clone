@@ -18,7 +18,6 @@ const NavbarResize = () => {
             type="search"
             placeholder="Search"
             aria-label="Search"
-            autoFocus
           />
         </form>
       </div>

@@ -41,9 +41,6 @@ const Login_signup = ({ setAuthenticate }) => {
     console.log(response);
   }
 
- 
-
-
   useEffect(() => {
     password.length > 6 ? setBtnStatus("") : setBtnStatus("disabled");
   }, [password]);

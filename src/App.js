@@ -23,7 +23,7 @@ export const DarkModeContext = createContext();
 
 const App = () => {
   const [authenticate, setAuthenticate] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   const router = createBrowserRouter([
     {

@@ -31,7 +31,8 @@ const Login_signup = ({ setAuthenticate }) => {
       body: JSON.stringify(
         {
           email: signupEmail.current.value,
-          name : signupName.current.value,
+          realname : signupName.current.value,
+          username : signupUserName.current.value,
           pass: signupPass.current.value
         }
       )
@@ -57,7 +58,11 @@ const Login_signup = ({ setAuthenticate }) => {
       signupPass.current.value === ""
     ) {
       alert("Please fill all the fields");
-    } else {
+    }
+    else if(!signupEmail.current.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/)){
+      alert("Please enter a valid email");
+    }
+    else {
       alert("Signup Successful");
       setAuth("login");
     }

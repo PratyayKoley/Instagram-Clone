@@ -22,7 +22,7 @@ const Login_signup = ({ setAuthenticate }) => {
   const loginEmail = useRef(null);
   const loginPass = useRef(null);
 
-  const handleSubmit = () => {
+  const handleRegister = () => {
     const requestOptions = {
       method: "POST",
       headers: {
@@ -40,6 +40,41 @@ const Login_signup = ({ setAuthenticate }) => {
   
     const response = fetch("http://localhost:5000/register",requestOptions)
     console.log(response);
+  }
+
+  const handleLogin = async () => {
+    const LoginOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(
+        {
+          login_Username: loginEmail.current.value,
+          pass: loginPass.current.value
+        }
+      )
+    }
+
+    const response = await fetch("http://localhost:5000/login", LoginOptions);
+
+    const data = await response.json();
+    console.log(data);
+
+    if(data.success){
+      alert("Login Successful");
+      Authenticate.setAuthenticate(true);
+    }
+    else if (
+      loginEmail.current &&
+      loginPass.current &&
+      (loginEmail.current.value === "" ||
+      loginPass.current.value === "")
+    ) {
+      alert("Please enter the credentials");
+    } else {
+      alert("Invalid Email or Password");
+    }
   }
 
   useEffect(() => {
@@ -65,27 +100,6 @@ const Login_signup = ({ setAuthenticate }) => {
     else {
       alert("Signup Successful");
       setAuth("login");
-    }
-  };
-
-  const login = () => {
-    if (
-      loginEmail.current &&
-      loginPass.current &&
-      loginEmail.current.value === "pratyay.itech.com" &&
-      loginPass.current.value === "itech123"
-    ) {
-      alert("Login Successful");
-      Authenticate.setAuthenticate(true);
-    } else if (
-      loginEmail.current &&
-      loginPass.current &&
-      (loginEmail.current.value === "" ||
-      loginPass.current.value === "")
-    ) {
-      alert("Please enter the credentials");
-    } else {
-      alert("Invalid Email or Password");
     }
   };
 
@@ -164,7 +178,7 @@ const Login_signup = ({ setAuthenticate }) => {
                 <button
                   className={`btn btn-primary fw-medium rounded-3 ${btnstatus}`}
                   type="button"
-                  onClick={login}
+                  onClick={handleLogin}
                 >
                   Log in
                 </button>
@@ -347,7 +361,7 @@ const Login_signup = ({ setAuthenticate }) => {
                 <button
                   className="btn btn-primary fw-medium rounded-3"
                   type="button"
-                  onClick={() => {handleSubmit(); signup()}}
+                  onClick={() => {handleRegister(); signup()}}
                 >
                   Sign up
                 </button>

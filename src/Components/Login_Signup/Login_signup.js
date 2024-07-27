@@ -63,7 +63,7 @@ const Login_signup = ({ setAuthenticate }) => {
 
     
     if(data.success){
-      alert("Login Successful");
+      // alert("Login Successful");
       localStorage.setItem('token', data.token);
       Authenticate.setAuthenticate(true);
     }

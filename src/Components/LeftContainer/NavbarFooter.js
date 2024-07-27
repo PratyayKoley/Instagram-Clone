@@ -59,6 +59,11 @@ function NavbarFooter() {
     navigate("/profilepage", { state: { activeTab: "saved" } });
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    Authenticate.setAuthenticate(false);
+  }
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -166,7 +171,7 @@ function NavbarFooter() {
           <hr className="my-1" style={{ borderTop: "2px solid #555555" }} />
           <div
             className="d-flex elements mb-2"
-            onClick={() => Authenticate.setAuthenticate(false)}
+            onClick={handleLogout}
           >
             <span>Logout</span>
           </div>

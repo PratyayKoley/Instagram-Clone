@@ -61,8 +61,10 @@ const Login_signup = ({ setAuthenticate }) => {
     const data = await response.json();
     console.log(data);
 
+    
     if(data.success){
       alert("Login Successful");
+      localStorage.setItem('token', data.token);
       Authenticate.setAuthenticate(true);
     }
     else if (
@@ -72,8 +74,13 @@ const Login_signup = ({ setAuthenticate }) => {
       loginPass.current.value === "")
     ) {
       alert("Please enter the credentials");
-    } else {
-      alert("Invalid Email or Password");
+    } else if(!data.success){
+      if(data.message === "User does not exist"){
+        alert("User does not exist");
+      }
+      else{
+        alert("Invalid Password");
+      }
     }
   }
 

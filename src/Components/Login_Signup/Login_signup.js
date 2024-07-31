@@ -38,7 +38,7 @@ const Login_signup = ({ setAuthenticate }) => {
       )
     }
   
-    const response = fetch("https://instagram-backend-production-ea91.up.railway.app/register",requestOptions)
+    const response = fetch(`${process.env.BACKEND_LINK}/register`,requestOptions)
     console.log(response);
   }
 
@@ -56,7 +56,7 @@ const Login_signup = ({ setAuthenticate }) => {
       )
     }
 
-    const response = await fetch("https://instagram-backend-production-ea91.up.railway.app/login", LoginOptions);
+    const response = await fetch(`${process.env.BACKEND_LINK}/login`, LoginOptions);
 
     const data = await response.json();
     console.log(data);

@@ -6,6 +6,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
+require("dotenv").config();
 
 import LeftContainer from "./Components/LeftContainer/LeftContainer";
 import MidContainer from "./Components/MidContainer/MidContainer";
@@ -40,7 +41,7 @@ const App = () => {
     };
 
     const response = await fetch(
-      "https://instagram-backend-production-ea91.up.railway.app/verify-token",
+      `${process.env.BACKEND_LINK}/verify-token`,
       RequestOptions
     );
 

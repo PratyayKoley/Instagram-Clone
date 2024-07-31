@@ -6,7 +6,6 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-require("dotenv").config();
 
 import LeftContainer from "./Components/LeftContainer/LeftContainer";
 import MidContainer from "./Components/MidContainer/MidContainer";
@@ -41,7 +40,7 @@ const App = () => {
     };
 
     const response = await fetch(
-      `${process.env.BACKEND_LINK}/verify-token`,
+      `${process.env.REACT_APP_BACKEND_LINK}/verify-token`,
       RequestOptions
     );
 

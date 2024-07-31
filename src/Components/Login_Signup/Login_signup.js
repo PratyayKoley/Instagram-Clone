@@ -9,7 +9,6 @@ import GooglePlay from "../../Icons/getgoogleplay.png";
 import Microsoft from "../../Icons/getmicrosoft.png";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AuthenticateContext } from "../../App";
-require("dotenv").config();
 
 const Login_signup = ({ setAuthenticate }) => {
   const Authenticate = useContext(AuthenticateContext);
@@ -39,7 +38,7 @@ const Login_signup = ({ setAuthenticate }) => {
       )
     }
   
-    const response = fetch(`${process.env.BACKEND_LINK}/register`,requestOptions)
+    const response = fetch(`${process.env.REACT_APP_BACKEND_LINK}/register`,requestOptions)
     console.log(response);
   }
 
@@ -57,7 +56,7 @@ const Login_signup = ({ setAuthenticate }) => {
       )
     }
 
-    const response = await fetch(`${process.env.BACKEND_LINK}/login`, LoginOptions);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/login`, LoginOptions);
 
     const data = await response.json();
     console.log(data);

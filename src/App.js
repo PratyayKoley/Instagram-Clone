@@ -40,7 +40,7 @@ const App = () => {
     };
 
     const response = await fetch(
-      "http://localhost:5000/verify-token",
+      "https://instagram-backend-production-ea91.up.railway.app/verify-token",
       RequestOptions
     );
 

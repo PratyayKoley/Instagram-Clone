@@ -38,7 +38,7 @@ const Login_signup = ({ setAuthenticate }) => {
       )
     }
   
-    const response = fetch("http://localhost:5000/register",requestOptions)
+    const response = fetch("https://instagram-backend-production-ea91.up.railway.app/register",requestOptions)
     console.log(response);
   }
 
@@ -56,14 +56,14 @@ const Login_signup = ({ setAuthenticate }) => {
       )
     }
 
-    const response = await fetch("http://localhost:5000/login", LoginOptions);
+    const response = await fetch("https://instagram-backend-production-ea91.up.railway.app/login", LoginOptions);
 
     const data = await response.json();
     console.log(data);
 
     
     if(data.success){
-      // alert("Login Successful");
+      alert("Login Successful");
       localStorage.setItem('token', data.token);
       Authenticate.setAuthenticate(true);
     }

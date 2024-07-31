@@ -9,6 +9,7 @@ import GooglePlay from "../../Icons/getgoogleplay.png";
 import Microsoft from "../../Icons/getmicrosoft.png";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AuthenticateContext } from "../../App";
+require("dotenv").config();
 
 const Login_signup = ({ setAuthenticate }) => {
   const Authenticate = useContext(AuthenticateContext);

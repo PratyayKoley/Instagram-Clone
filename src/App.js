@@ -17,13 +17,15 @@ import ProfilePage from "./Components/Profile/ProfilePage";
 import NotificationsResized from "./Components/Resized Components/NotificationsResized";
 import MessagesResized from "./Components/Resized Components/MessagesResized";
 import ProfileResized from "./Components/Resized Components/ProfileResized";
+import NotFound from "./Components/NotFound.js";
 
 export const AuthenticateContext = createContext();
-export const DarkModeContext = createContext();
+export const DarkModeContext = createContext(); 
 
 const App = () => {
   const [authenticate, setAuthenticate] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [userId, setUserId] = useState("");
 
   const handleToken = async () => {
     const token = localStorage.getItem("token");
@@ -48,6 +50,7 @@ const App = () => {
     console.log(data);
 
     if(data.valid){
+      setUserId(data.user.user_id);
       setAuthenticate(true);
     }
     else{
@@ -85,7 +88,7 @@ const App = () => {
 
             <MidContainer />
 
-            <RightContainer />
+            <RightContainer id={userId}/>
           </DarkModeContext.Provider>
         </div>
       ) : (
@@ -141,9 +144,14 @@ const App = () => {
         </DarkModeContext.Provider>
       ),
     },
+    {
+      path: "*",
+      element: (<NotFound />)
+    }
   ]);
 
   return <RouterProvider router={router} />;
 };
+
 
 export default App;

@@ -4,10 +4,10 @@ import Suggested from "./Suggested";
 import OwnAccount from "./OwnAccount";
 import Footer from "./Footer";
 
-const RightContainer = () => {
+const RightContainer = (props) => {
   return (
     <div className="right_container flex-column align-items-center">
-      <OwnAccount />
+      <OwnAccount id={props.id}/>
       <Suggested />
       <Footer />
     </div>

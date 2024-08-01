@@ -1,7 +1,33 @@
-import React from "react";
+import React,{ useEffect, useState } from "react";
 import SwitchAcc from "../LeftContainer/SwitchAcc";
 
-const OwnAccount = () => {
+const OwnAccount = (props) => {
+
+  const [realname, setRealname] = useState("");
+  const [username, setUsername] = useState("");
+
+  const fetchUserData = async () => {
+    const RequestOptions = {
+      method: "POST",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userid: props.id
+      })
+    }
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-user-data`, RequestOptions);
+    const data = await response.json();
+
+    setRealname(data.realname);
+    setUsername(data.username);
+  }
+  useEffect(() => {
+    fetchUserData();
+  },[props.id])
+  
+
   return (
     <>
       <div className="accwrapper d-flex justify-content-between">
@@ -11,8 +37,8 @@ const OwnAccount = () => {
             alt="Own_dp"
           />
           <span className="accname_username d-flex flex-column justify-content-center">
-            <span className="accname fw-bold">itecheducation.official</span>
-            <span className="username">ITechEducation.Official</span>
+            <span className="accname fw-bold">{realname}</span>
+            <span className="username">{username}</span>
           </span>
         </div>
         <div

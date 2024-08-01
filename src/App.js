@@ -40,7 +40,7 @@ const App = () => {
     };
 
     const response = await fetch(
-      "https://instagram-backend-production-ea91.up.railway.app/verify-token",
+      `${process.env.REACT_APP_BACKEND_LINK}/verify-token`,
       RequestOptions
     );
 

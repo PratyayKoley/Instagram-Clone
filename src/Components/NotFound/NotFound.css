@@ -1,0 +1,19 @@
+.error {
+  flex: 1;
+  border-left: 1px solid var(--borderLeft);
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5em 2em 0em 2em;
+}
+.errorcontents{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.link{
+  cursor: pointer;
+}

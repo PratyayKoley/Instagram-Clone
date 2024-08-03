@@ -9,10 +9,13 @@ import GooglePlay from "../../Icons/getgoogleplay.png";
 import Microsoft from "../../Icons/getmicrosoft.png";
 import { FaFacebookSquare } from "react-icons/fa";
 import { AuthenticateContext } from "../../App";
+import { useLocation } from "react-router-dom";
 
 const Login_signup = ({ setAuthenticate }) => {
+  const location = useLocation();
+  const {state} = location;
   const Authenticate = useContext(AuthenticateContext);
-  let [authmode, setAuth] = useState("login");
+  let [authmode, setAuth] = useState(state?.authmode || "login");
   const [password, setPassword] = useState("");
   const [btnstatus, setBtnStatus] = useState("disabled");
   const signupEmail = useRef(null);

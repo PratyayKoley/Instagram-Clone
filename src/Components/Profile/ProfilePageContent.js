@@ -18,7 +18,7 @@ const ProfilePageContent = () => {
   const location = useLocation();
   const {state} = location;
   const DarkModeSetting = useContext(DarkModeContext);
-  const [activeTab, setActiveTab] = useState(state?.activeTab || "posts");
+  const [activeTab, setActiveTab] = useState(state?.activeTab || "posts"); 
   const handleTab = (item) => {
     setActiveTab(item);
   };

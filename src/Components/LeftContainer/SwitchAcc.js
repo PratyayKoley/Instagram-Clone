@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { DarkModeContext } from "../../App";
+import { DarkModeContext,AuthenticateContext } from "../../App";
 
 const SwitchAcc = () => {
+  const Authenticate = useContext(AuthenticateContext);
   const DarkModeSetting = useContext(DarkModeContext);
   const [password, setPassword] = useState("");
   const [btnstatus, setBtnStatus] = useState("disabled");
@@ -12,21 +13,48 @@ const SwitchAcc = () => {
     password.length > 6 ? setBtnStatus("") : setBtnStatus("disabled");
   }, [password]);
 
-  const login = () => {
-    if (
-      loginEmail.current.value === "pratyay.itech.com" &&
-      loginPass.current.value === "itech123"
-    ) {
+  const handleLogin = async () => {
+    const LoginOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(
+        {
+          login_Username: loginEmail.current.value,
+          pass: loginPass.current.value
+        }
+      )
+    }
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/login`, LoginOptions);
+
+    const data = await response.json();
+    console.log(data);
+
+    
+    if(data.success){
       alert("Login Successful");
-    } else if (
-      loginEmail.current.value === "" ||
-      loginPass.current.value === ""
+      localStorage.setItem('token', data.token);
+      Authenticate.setAuthenticate(true);
+    }
+    else if (
+      loginEmail.current &&
+      loginPass.current &&
+      (loginEmail.current.value === "" ||
+      loginPass.current.value === "")
     ) {
       alert("Please enter the credentials");
-    } else {
-      alert("Invalid Email or Password");
+    } else if(!data.success){
+      if(data.message === "User does not exist"){
+        alert("User does not exist");
+      }
+      else{
+        alert("Invalid Password");
+      }
     }
-  };
+  }
+
   return (
     <>
       <div
@@ -115,7 +143,7 @@ const SwitchAcc = () => {
                       <button
                         className={`btn btn-primary fw-medium rounded-3 ${btnstatus}`}
                         type="button"
-                        onClick={login}
+                        onClick={handleLogin}
                       >
                         Log in
                       </button>

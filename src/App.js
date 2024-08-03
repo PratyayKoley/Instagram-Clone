@@ -17,10 +17,10 @@ import ProfilePage from "./Components/Profile/ProfilePage";
 import NotificationsResized from "./Components/Resized Components/NotificationsResized";
 import MessagesResized from "./Components/Resized Components/MessagesResized";
 import ProfileResized from "./Components/Resized Components/ProfileResized";
-import NotFound from "./Components/NotFound.js";
+import NotFound from "./Components/NotFound/NotFound.js";
 
 export const AuthenticateContext = createContext();
-export const DarkModeContext = createContext(); 
+export const DarkModeContext = createContext();
 
 const App = () => {
   const [authenticate, setAuthenticate] = useState(false);
@@ -37,7 +37,7 @@ const App = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -49,18 +49,17 @@ const App = () => {
     const data = await response.json();
     console.log(data);
 
-    if(data.valid){
+    if (data.valid) {
       setUserId(data.user.user_id);
       setAuthenticate(true);
-    }
-    else{
+    } else {
       setAuthenticate(false);
     }
   };
-  
+
   useEffect(() => {
     handleToken();
-  });
+  },[userId]);
 
   const router = createBrowserRouter([
     {
@@ -88,7 +87,7 @@ const App = () => {
 
             <MidContainer />
 
-            <RightContainer id={userId}/>
+            <RightContainer id={userId} />
           </DarkModeContext.Provider>
         </div>
       ) : (
@@ -146,12 +145,15 @@ const App = () => {
     },
     {
       path: "*",
-      element: (<NotFound />)
-    }
+      element: (
+        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+          <NotFound isVerified={authenticate}/>
+        </DarkModeContext.Provider>
+      ),
+    },
   ]);
 
   return <RouterProvider router={router} />;
 };
-
 
 export default App;

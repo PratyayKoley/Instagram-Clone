@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Login_signup.css";
 import Phone from "../../Icons/login_phone.png";
 import screenshot1 from "../../Icons/screenshot1.png";
@@ -8,13 +8,12 @@ import screenshot4 from "../../Icons/screenshot4.png";
 import GooglePlay from "../../Icons/getgoogleplay.png";
 import Microsoft from "../../Icons/getmicrosoft.png";
 import { FaFacebookSquare } from "react-icons/fa";
-import { AuthenticateContext } from "../../App";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Login_signup = ({ setAuthenticate }) => {
+const Login_signup = () => {
   const location = useLocation();
-  const {state} = location;
-  const Authenticate = useContext(AuthenticateContext);
+  const { state } = location;
+  const navigate = useNavigate();
   let [authmode, setAuth] = useState(state?.authmode || "login");
   const [password, setPassword] = useState("");
   const [btnstatus, setBtnStatus] = useState("disabled");
@@ -29,67 +28,98 @@ const Login_signup = ({ setAuthenticate }) => {
     const requestOptions = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        {
-          email: signupEmail.current.value,
-          realname : signupName.current.value,
-          username : signupUserName.current.value,
-          pass: signupPass.current.value
-        }
-      )
-    }
-  
-    const response = fetch(`${process.env.REACT_APP_BACKEND_LINK}/register`,requestOptions)
+      body: JSON.stringify({
+        email: signupEmail.current.value,
+        realname: signupName.current.value,
+        username: signupUserName.current.value,
+        pass: signupPass.current.value,
+      }),
+    };
+
+    const response = fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/register`,
+      requestOptions
+    );
     console.log(response);
-  }
+  };
 
   const handleLogin = async () => {
     const LoginOptions = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        {
-          login_Username: loginEmail.current.value,
-          pass: loginPass.current.value
-        }
-      )
-    }
+      body: JSON.stringify({
+        login_Username: loginEmail.current.value,
+        pass: loginPass.current.value,
+      }),
+    };
 
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/login`, LoginOptions);
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/login`,
+      LoginOptions
+    );
 
     const data = await response.json();
     console.log(data);
 
-    
-    if(data.success){
+    if (data.success) {
       alert("Login Successful");
-      localStorage.setItem('token', data.token);
-      Authenticate.setAuthenticate(true);
-    }
-    else if (
+      localStorage.setItem("token", data.token);
+      navigate("/main");
+    } else if (
       loginEmail.current &&
       loginPass.current &&
-      (loginEmail.current.value === "" ||
-      loginPass.current.value === "")
+      (loginEmail.current.value === "" || loginPass.current.value === "")
     ) {
       alert("Please enter the credentials");
-    } else if(!data.success){
-      if(data.message === "User does not exist"){
+    } else if (!data.success) {
+      if (data.message === "User does not exist") {
         alert("User does not exist");
-      }
-      else{
+      } else {
         alert("Invalid Password");
       }
     }
-  }
+  };
+
+  const handleToken = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/main");
+    }
+
+    const RequestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/verify-token`,
+      RequestOptions
+    );
+
+    const data = await response.json();
+
+    if(data.valid){
+      navigate("/main");
+    }
+    else{
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     password.length > 6 ? setBtnStatus("") : setBtnStatus("disabled");
   }, [password]);
+
+  useEffect(() => {
+    handleToken();
+  }, []);
 
   const changeAuth = () => {
     setAuth(authmode === "login" ? "signup" : "login");
@@ -103,11 +133,13 @@ const Login_signup = ({ setAuthenticate }) => {
       signupPass.current.value === ""
     ) {
       alert("Please fill all the fields");
-    }
-    else if(!signupEmail.current.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/)){
+    } else if (
+      !signupEmail.current.value.match(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/
+      )
+    ) {
       alert("Please enter a valid email");
-    }
-    else {
+    } else {
       alert("Signup Successful");
       setAuth("login");
     }
@@ -371,7 +403,10 @@ const Login_signup = ({ setAuthenticate }) => {
                 <button
                   className="btn btn-primary fw-medium rounded-3"
                   type="button"
-                  onClick={() => {handleRegister(); signup()}}
+                  onClick={() => {
+                    handleRegister();
+                    signup();
+                  }}
                 >
                   Sign up
                 </button>

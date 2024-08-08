@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { DarkModeContext,AuthenticateContext } from "../../App";
+import { DarkModeContext } from "../../App";
 
 const SwitchAcc = () => {
-  const Authenticate = useContext(AuthenticateContext);
   const DarkModeSetting = useContext(DarkModeContext);
   const [password, setPassword] = useState("");
   const [btnstatus, setBtnStatus] = useState("disabled");
@@ -36,7 +35,6 @@ const SwitchAcc = () => {
     if(data.success){
       alert("Login Successful");
       localStorage.setItem('token', data.token);
-      Authenticate.setAuthenticate(true);
     }
     else if (
       loginEmail.current &&

@@ -1,10 +1,9 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useContext } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
   createBrowserRouter,
   RouterProvider,
-  Navigate,
 } from "react-router-dom";
 
 import LeftContainer from "./Components/LeftContainer/LeftContainer";
@@ -18,137 +17,104 @@ import NotificationsResized from "./Components/Resized Components/NotificationsR
 import MessagesResized from "./Components/Resized Components/MessagesResized";
 import ProfileResized from "./Components/Resized Components/ProfileResized";
 import NotFound from "./Components/NotFound/NotFound.js";
+import ProtectedComponent from "./Components/ProtectedRoute/Protect_Component.js";
 
-export const AuthenticateContext = createContext();
 export const DarkModeContext = createContext();
 
 const App = () => {
-  const [authenticate, setAuthenticate] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
-  const [userId, setUserId] = useState("");
-
-  const handleToken = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setAuthenticate(false);
-    }
-
-    const RequestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_LINK}/verify-token`,
-      RequestOptions
-    );
-
-    const data = await response.json();
-    console.log(data);
-
-    if (data.valid) {
-      setUserId(data.user.user_id);
-      setAuthenticate(true);
-    } else {
-      setAuthenticate(false);
-    }
-  };
-
-  useEffect(() => {
-    handleToken();
-  },[userId]);
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: authenticate ? (
-        <Navigate to="/main" />
-      ) : (
-        <AuthenticateContext.Provider value={{ setAuthenticate }}>
-          <Login_signup />
-        </AuthenticateContext.Provider>
-      ),
+      element: <Login_signup />,
     },
     {
       path: "/main",
-      element: authenticate ? (
-        <div
-          className={`web_bg ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          } w-100 h-100 d-flex`}
-        >
-          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-            <AuthenticateContext.Provider value={{ setAuthenticate }}>
+      element: (
+        <ProtectedComponent>
+          <div
+            className={`web_bg ${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            } w-100 h-100 d-flex`}
+          >
+            <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
               <LeftContainer />
-            </AuthenticateContext.Provider>
-
-            <MidContainer />
-
-            <RightContainer id={userId} />
-          </DarkModeContext.Provider>
-        </div>
-      ) : (
-        <Navigate to="/" />
+              <MidContainer />
+              <RightContainer />
+            </DarkModeContext.Provider>
+          </div>
+        </ProtectedComponent>
       ),
     },
     {
       path: "/explore",
-
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <Explore />
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <Explore />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
     {
       path: "/reels",
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <Reels />
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <Reels />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
     {
       path: "/profilepage",
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <ProfilePage />
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <ProfilePage />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
     {
       path: "/notificationsresized",
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <NotificationsResized />,
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <NotificationsResized />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
     {
       path: "/messagesresized",
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <MessagesResized />,
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <MessagesResized />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
     {
       path: "/profileresized",
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <ProfileResized />,
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <ProfileResized />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
     {
       path: "*",
       element: (
-        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-          <NotFound isVerified={authenticate}/>
-        </DarkModeContext.Provider>
+        <ProtectedComponent>
+          <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <NotFound />
+          </DarkModeContext.Provider>
+        </ProtectedComponent>
       ),
     },
   ]);

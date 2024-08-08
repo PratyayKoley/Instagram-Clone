@@ -17,7 +17,6 @@ import MoonLight from "../../Icons (Light Mode)/MoonLight.svg";
 import SunLight from "../../Icons (Light Mode)/SunLight.svg";
 import ReportLight from "../../Icons (Light Mode)/ReportLight.svg";
 import LessThanLight from "../../Icons (Light Mode)/LessThanLight.svg";
-import { AuthenticateContext } from "../../App";
 import { DarkModeContext } from "../../App";
 import SwitchAcc from "./SwitchAcc";
 import ReportProblem from "./ReportProblem";
@@ -27,7 +26,6 @@ export const ModeContext = createContext();
 
 function NavbarFooter() {
   const DarkModeSetting = useContext(DarkModeContext);
-  const Authenticate = useContext(AuthenticateContext);
   const [active, setActive] = useState("");
   const [appearanceActive, setAppearanceActive] = useState(false);
   const navigate = useNavigate();
@@ -61,7 +59,7 @@ function NavbarFooter() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    Authenticate.setAuthenticate(false);
+    navigate("/");
   }
 
   useEffect(() => {

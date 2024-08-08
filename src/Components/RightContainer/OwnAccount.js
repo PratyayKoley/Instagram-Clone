@@ -1,32 +1,34 @@
-import React,{ useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SwitchAcc from "../LeftContainer/SwitchAcc";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
-const OwnAccount = (props) => {
-
+const OwnAccount = () => {
+  const { userId } = useContext(UserInfoContext);
   const [realname, setRealname] = useState("");
   const [username, setUsername] = useState("");
+  console.log(userId);
 
   const fetchUserData = async () => {
     const RequestOptions = {
       method: "POST",
-      headers:{
+      headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        userid: props.id
-      })
-    }
+      body: JSON.stringify({ userid: userId }),
+    };
 
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-user-data`, RequestOptions);
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/get-user-data`,
+      RequestOptions
+    );
     const data = await response.json();
 
     setRealname(data.realname);
     setUsername(data.username);
-  }
+  };
   useEffect(() => {
     fetchUserData();
-  },[props.id])
-  
+  }, [userId]);
 
   return (
     <>

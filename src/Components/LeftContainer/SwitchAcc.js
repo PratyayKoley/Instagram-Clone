@@ -35,6 +35,7 @@ const SwitchAcc = () => {
     if(data.success){
       alert("Login Successful");
       localStorage.setItem('token', data.token);
+      window.location.reload();
     }
     else if (
       loginEmail.current &&

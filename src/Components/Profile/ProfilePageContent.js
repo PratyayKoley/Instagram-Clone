@@ -13,23 +13,59 @@ import ProfSavedLight from "../../Icons (Light Mode)/ProfileSavedLight.svg";
 import ProfTaggedLight from "../../Icons (Light Mode)/ProfileTaggedLight.svg";
 import { DarkModeContext } from "../../App";
 import { useLocation } from "react-router-dom";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
 const ProfilePageContent = () => {
   const location = useLocation();
-  const {state} = location;
+  const { state } = location;
+  const { userId } = useContext(UserInfoContext);
   const DarkModeSetting = useContext(DarkModeContext);
-  const [activeTab, setActiveTab] = useState(state?.activeTab || "posts"); 
+  const [activeTab, setActiveTab] = useState(state?.activeTab || "posts");
+  const [realname, setRealname] = useState("");
+  const [username, setUsername] = useState("");
+  const [numfollowers, setNumFollowers] = useState("");
+  const [numfollowing, setNumFollwing] = useState("");
+  const [numposts, setNumPosts] = useState("");
+  const [bio, setBio] = useState("");
+
   const handleTab = (item) => {
     setActiveTab(item);
   };
-  
+
+  const pullProfileInfo = async () => {
+    const RequestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userid: userId,
+      }),
+    };
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-profile-data`, RequestOptions);
+    
+    const data = await response.json();
+
+    setRealname(data.realname);
+    setUsername(data.username);
+    setNumFollowers(data.num_followers);
+    setNumFollwing(data.num_following);
+    setNumPosts(data.num_posts);
+    setBio(data.bio);
+  };
+
   useEffect(() => {
-    if(state?.activeTab)
-      {
-        document.querySelector(".savedTab").classList.add("active");
-        document.querySelector(".postTab").classList.remove("active");
-      }
-  }, [state])
+    if (state?.activeTab) {
+      document.querySelector(".savedTab").classList.add("active");
+      document.querySelector(".postTab").classList.remove("active");
+    }
+  }, [state]);
+
+  useEffect(() => {
+    pullProfileInfo();
+  }, [userId]);
+
   return (
     <div className="profile flex-column">
       <div className="profileinfo d-flex gap-5 align-items-center">
@@ -41,7 +77,7 @@ const ProfilePageContent = () => {
         </div>
         <div className="accinfo d-flex flex-column">
           <div className="username d-flex gap-2 align-items-center">
-            <div className="name fw-medium">itecheducation.official</div>
+            <div className="name fw-medium">{username}</div>
             <button type="button" className="button btn fw-semibold">
               Edit profile
             </button>
@@ -51,26 +87,25 @@ const ProfilePageContent = () => {
             <button type="button" className="button btn fw-semibold">
               Ad tools
             </button>
-            <img src={DarkModeSetting.darkMode ? Settings : SettingsLight} alt="Settings" />
+            <img
+              src={DarkModeSetting.darkMode ? Settings : SettingsLight}
+              alt="Settings"
+            />
           </div>
           <div className="number d-flex gap-5 mt-4">
-            <span>
-              <strong>0</strong> posts
+            <span style={{cursor: "pointer"}}>
+              <strong>{numposts}</strong> posts
             </span>
-            <span>
-              <strong>1,269</strong> followers
+            <span style={{cursor: "pointer"}}>
+              <strong>{numfollowers}</strong> followers
             </span>
-            <span>
-              <strong>325</strong> following
+            <span style={{cursor: "pointer"}}>
+              <strong>{numfollowing}</strong> following
             </span>
           </div>
           <div className="accname mt-3 d-flex flex-column gap-0">
-            <span className="fw-semibold">ITechEducation.Official</span>
-            <span className="fw-lighter">Education</span>
-            <span className="fw-light">ITech Computer Education</span>
-            <span className="fw-light">Learn From The IT Trainer.</span>
-            <span className="fw-light">📍 Nalasopara 📍 Vasai 📍 Nerul</span>
-            <span className="fw-light">📩 Contact Us Now</span>
+            <span className="fw-semibold">{realname}</span>
+            <span className="fw-lighter">{bio}</span>
           </div>
         </div>
       </div>
@@ -94,7 +129,10 @@ const ProfilePageContent = () => {
             aria-controls="pills-home"
             aria-selected="true"
           >
-            <img src={DarkModeSetting.darkMode ? ProfPosts : ProfPostsLight} alt="Profile Posts" />
+            <img
+              src={DarkModeSetting.darkMode ? ProfPosts : ProfPostsLight}
+              alt="Profile Posts"
+            />
             POSTS
           </div>
         </li>
@@ -113,7 +151,10 @@ const ProfilePageContent = () => {
             aria-controls="pills-profile"
             aria-selected="false"
           >
-            <img src={DarkModeSetting.darkMode ? ProfReels : ProfReelsLight} alt="Profile Reels" />
+            <img
+              src={DarkModeSetting.darkMode ? ProfReels : ProfReelsLight}
+              alt="Profile Reels"
+            />
             REELS
           </div>
         </li>
@@ -132,7 +173,10 @@ const ProfilePageContent = () => {
             aria-controls="pills-contact"
             aria-selected="false"
           >
-            <img src={DarkModeSetting.darkMode ? ProfSaved : ProfSavedLight} alt="Profile Saved" />
+            <img
+              src={DarkModeSetting.darkMode ? ProfSaved : ProfSavedLight}
+              alt="Profile Saved"
+            />
             SAVED
           </div>
         </li>
@@ -151,13 +195,16 @@ const ProfilePageContent = () => {
             aria-controls="pills-disabled"
             aria-selected="false"
           >
-            <img src={DarkModeSetting.darkMode ? ProfTagged : ProfTaggedLight} alt="Profile Tagged" />
+            <img
+              src={DarkModeSetting.darkMode ? ProfTagged : ProfTaggedLight}
+              alt="Profile Tagged"
+            />
             TAGGED
           </div>
         </li>
       </ul>
 
-      <ProfilePosts activeTab={activeTab}/>
+      <ProfilePosts activeTab={activeTab} />
     </div>
   );
 };

@@ -6,7 +6,6 @@ const OwnAccount = () => {
   const { userId } = useContext(UserInfoContext);
   const [realname, setRealname] = useState("");
   const [username, setUsername] = useState("");
-  console.log(userId);
 
   const fetchUserData = async () => {
     const RequestOptions = {
@@ -39,8 +38,8 @@ const OwnAccount = () => {
             alt="Own_dp"
           />
           <span className="accname_username d-flex flex-column justify-content-center">
-            <span className="accname fw-bold">{realname}</span>
-            <span className="username">{username}</span>
+            <span className="accname fw-bold">{username}</span>
+            <span className="username">{realname}</span>
           </span>
         </div>
         <div

@@ -64,8 +64,25 @@ function Navbar({
           className={`d-flex gap-3 ${activeItem === "home" ? "active" : ""}`}
           onClick={() => handleItemClick("home")}
         >
-          <img src={activeItem === "home" ? (DarkModeSetting.darkMode ? Home : HomeLight) : (DarkModeSetting.darkMode ? fillHome : fillHomeLight)} alt="Home" />
-          <span className={`${DarkModeSetting.darkMode ? "text-white" : "text-black"} text-decoration-none`}>Home</span>
+          <img
+            src={
+              activeItem === "home"
+                ? DarkModeSetting.darkMode
+                  ? Home
+                  : HomeLight
+                : DarkModeSetting.darkMode
+                ? fillHome
+                : fillHomeLight
+            }
+            alt="Home"
+          />
+          <span
+            className={`${
+              DarkModeSetting.darkMode ? "text-white" : "text-black"
+            } text-decoration-none`}
+          >
+            Home
+          </span>
         </li>
       </Link>
 
@@ -80,7 +97,18 @@ function Navbar({
           handleSearch();
         }}
       >
-        <img src={activeItem === "search" ? (DarkModeSetting.darkMode ? fillSearch : fillSearchLight) : (DarkModeSetting.darkMode ? Search : SearchLight)} alt="Search" />
+        <img
+          src={
+            activeItem === "search"
+              ? DarkModeSetting.darkMode
+                ? fillSearch
+                : fillSearchLight
+              : DarkModeSetting.darkMode
+              ? Search
+              : SearchLight
+          }
+          alt="Search"
+        />
         <span>Search</span>
       </li>
 
@@ -90,10 +118,24 @@ function Navbar({
           onClick={() => handleItemClick("explore")}
         >
           <img
-            src={activeItem === "explore" ? (DarkModeSetting.darkMode ? fillExplore : fillExploreLight) : (DarkModeSetting.darkMode ? Explore : ExploreLight)}
+            src={
+              activeItem === "explore"
+                ? DarkModeSetting.darkMode
+                  ? fillExplore
+                  : fillExploreLight
+                : DarkModeSetting.darkMode
+                ? Explore
+                : ExploreLight
+            }
             alt="Explore"
           />
-          <span className={`${DarkModeSetting.darkMode ? "text-white" : "text-black"} text-decoration-none`}>Explore</span>
+          <span
+            className={`${
+              DarkModeSetting.darkMode ? "text-white" : "text-black"
+            } text-decoration-none`}
+          >
+            Explore
+          </span>
         </li>
       </Link>
 
@@ -102,8 +144,25 @@ function Navbar({
           className={`d-flex gap-3 ${activeItem === "reels" ? "active" : ""}`}
           onClick={() => handleItemClick("reels")}
         >
-          <img src={activeItem === "reels" ? (DarkModeSetting.darkMode ? fillReels : fillReelsLight) : (DarkModeSetting.darkMode ? Reels : ReelsLight)} alt="Reels" />
-          <span className={`${DarkModeSetting.darkMode ? "text-white" : "text-black"} text-decoration-none`}>Reels</span>
+          <img
+            src={
+              activeItem === "reels"
+                ? DarkModeSetting.darkMode
+                  ? fillReels
+                  : fillReelsLight
+                : DarkModeSetting.darkMode
+                ? Reels
+                : ReelsLight
+            }
+            alt="Reels"
+          />
+          <span
+            className={`${
+              DarkModeSetting.darkMode ? "text-white" : "text-black"
+            } text-decoration-none`}
+          >
+            Reels
+          </span>
         </li>
       </Link>
 
@@ -119,7 +178,15 @@ function Navbar({
         }}
       >
         <img
-          src={activeItem === "messages" ? (DarkModeSetting.darkMode ? fillMessages : fillMessagesLight) : (DarkModeSetting.darkMode ? Messages : MessagesLight)}
+          src={
+            activeItem === "messages"
+              ? DarkModeSetting.darkMode
+                ? fillMessages
+                : fillMessagesLight
+              : DarkModeSetting.darkMode
+              ? Messages
+              : MessagesLight
+          }
           alt="Messages"
         />
         <span>Messages</span>
@@ -138,7 +205,13 @@ function Navbar({
       >
         <img
           src={
-            activeItem === "notifications" ? (DarkModeSetting.darkMode ? fillNotifications : fillNotificationsLight) : (DarkModeSetting.darkMode ? Notifications : NotificationsLight)
+            activeItem === "notifications"
+              ? DarkModeSetting.darkMode
+                ? fillNotifications
+                : fillNotificationsLight
+              : DarkModeSetting.darkMode
+              ? Notifications
+              : NotificationsLight
           }
           alt="Notifications"
         />
@@ -155,8 +228,25 @@ function Navbar({
           handleItemClick("create");
         }}
       >
-        <img src={activeItem === "create" ? (DarkModeSetting.darkMode ? fillCreate : fillCreateLight) : (DarkModeSetting.darkMode ? Create : CreateLight)} alt="Create" />
-        <span className={`${DarkModeSetting.darkMode ? "text-white" : "text-black"} text-decoration-none`}>Create</span>
+        <img
+          src={
+            activeItem === "create"
+              ? DarkModeSetting.darkMode
+                ? fillCreate
+                : fillCreateLight
+              : DarkModeSetting.darkMode
+              ? Create
+              : CreateLight
+          }
+          alt="Create"
+        />
+        <span
+          className={`${
+            DarkModeSetting.darkMode ? "text-white" : "text-black"
+          } text-decoration-none`}
+        >
+          Create
+        </span>
       </li>
 
       {activeItem === "create" && (
@@ -175,7 +265,10 @@ function Navbar({
             data-bs-target="#videoModal"
           >
             <span>Live video</span>
-            <img src={DarkModeSetting.darkMode ? Video : VideoLight} alt="Live Video" />
+            <img
+              src={DarkModeSetting.darkMode ? Video : VideoLight}
+              alt="Live Video"
+            />
           </div>
         </div>
       )}
@@ -186,10 +279,24 @@ function Navbar({
           onClick={() => handleItemClick("profile")}
         >
           <img
-            src={activeItem === "profile" ? (DarkModeSetting.darkMode ? fillProfile : fillProfileLight) : (DarkModeSetting.darkMode ? Profile : ProfileLight)}
+            src={
+              activeItem === "profile"
+                ? DarkModeSetting.darkMode
+                  ? fillProfile
+                  : fillProfileLight
+                : DarkModeSetting.darkMode
+                ? Profile
+                : ProfileLight
+            }
             alt="Profile"
           />
-          <span className={`${DarkModeSetting.darkMode ? "text-white" : "text-black"}`}>Profile</span>
+          <span
+            className={`${
+              DarkModeSetting.darkMode ? "text-white" : "text-black"
+            }`}
+          >
+            Profile
+          </span>
         </li>
       </Link>
 

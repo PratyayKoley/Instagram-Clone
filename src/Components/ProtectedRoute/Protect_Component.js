@@ -44,7 +44,6 @@ const Protect_Component = ({children}) => {
     return <Navigate to = "/" />
   }
 
-
   return(
     <UserInfoContext.Provider value={{userId}}>
       {children}

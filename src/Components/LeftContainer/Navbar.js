@@ -42,6 +42,7 @@ import NotificationsModal from "./NotificationsModal";
 import MessagesModal from "./MessagesModal";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../App";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
 function Navbar({
   activate,
@@ -52,6 +53,7 @@ function Navbar({
 }) {
   const [activeItem, setActiveItem] = useState("home");
   const DarkModeSetting = useContext(DarkModeContext);
+  const {userName} = useContext(UserInfoContext);
 
   const handleItemClick = (item) => {
     setActiveItem(item);
@@ -273,7 +275,7 @@ function Navbar({
         </div>
       )}
 
-      <Link to="/profilepage" className="text-decoration-none">
+      <a href={`/${userName}`} className="text-decoration-none">
         <li
           className={`d-flex gap-3 ${activeItem === "profile" ? "active" : ""}`}
           onClick={() => handleItemClick("profile")}
@@ -298,7 +300,7 @@ function Navbar({
             Profile
           </span>
         </li>
-      </Link>
+      </a>
 
       {/* Post Modal */}
       <PostModal />

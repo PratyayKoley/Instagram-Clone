@@ -4,7 +4,7 @@ export const UserInfoContext = createContext();
 
 const Protect_Component = ({children}) => {    
   const [authenticate, setAuthenticate] = useState(null);
-  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
 
   const handleToken = async () => {
     const token = localStorage.getItem("token");
@@ -29,7 +29,7 @@ const Protect_Component = ({children}) => {
     console.log(data);
 
     if (data.valid) {
-      setUserId(data.user.user_id);
+      setUserName(data.username);
       setAuthenticate(true);
     } else {
       setAuthenticate(false);
@@ -45,7 +45,7 @@ const Protect_Component = ({children}) => {
   }
 
   return(
-    <UserInfoContext.Provider value={{userId}}>
+    <UserInfoContext.Provider value={{userName}}>
       {children}
     </UserInfoContext.Provider>
   );

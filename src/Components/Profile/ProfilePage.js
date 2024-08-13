@@ -6,6 +6,7 @@ import { DarkModeContext } from "../../App";
 
 const ProfilePage = () => {
   const DarkModeSetting = useContext(DarkModeContext);
+  
   return (
     <>
       <div className={`web_bg ${DarkModeSetting.darkMode ? "bg-black text-white" : "bg-white text-black"} w-100 vh-100 d-flex`}>

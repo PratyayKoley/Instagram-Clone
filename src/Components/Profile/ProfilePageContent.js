@@ -16,9 +16,10 @@ import { useLocation } from "react-router-dom";
 import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
 const ProfilePageContent = () => {
+  const { pathname } = useLocation();
   const location = useLocation();
   const { state } = location;
-  const { userId } = useContext(UserInfoContext);
+  const { userName } = useContext(UserInfoContext);
   const DarkModeSetting = useContext(DarkModeContext);
   const [activeTab, setActiveTab] = useState(state?.activeTab || "posts");
   const [realname, setRealname] = useState("");
@@ -28,23 +29,31 @@ const ProfilePageContent = () => {
   const [numposts, setNumPosts] = useState("");
   const [bio, setBio] = useState("");
 
+  console.log();
+  
+
   const handleTab = (item) => {
     setActiveTab(item);
   };
 
   const pullProfileInfo = async () => {
+
+    
     const RequestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userid: userId,
+        username: pathname.split("/")[1],
       }),
     };
 
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-profile-data`, RequestOptions);
-    
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/get-profile-data`,
+      RequestOptions
+    );
+
     const data = await response.json();
 
     setRealname(data.realname);
@@ -64,7 +73,7 @@ const ProfilePageContent = () => {
 
   useEffect(() => {
     pullProfileInfo();
-  }, [userId]);
+  }, [userName]);
 
   return (
     <div className="profile flex-column">
@@ -93,13 +102,13 @@ const ProfilePageContent = () => {
             />
           </div>
           <div className="number d-flex gap-5 mt-4">
-            <span style={{cursor: "pointer"}}>
+            <span style={{ cursor: "pointer" }}>
               <strong>{numposts}</strong> posts
             </span>
-            <span style={{cursor: "pointer"}}>
+            <span style={{ cursor: "pointer" }}>
               <strong>{numfollowers}</strong> followers
             </span>
-            <span style={{cursor: "pointer"}}>
+            <span style={{ cursor: "pointer" }}>
               <strong>{numfollowing}</strong> following
             </span>
           </div>

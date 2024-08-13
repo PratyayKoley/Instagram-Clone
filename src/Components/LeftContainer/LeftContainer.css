@@ -255,6 +255,9 @@
   border-right: 1px solid var(--modalBackgroundColor) !important;
   margin-left: 4.5em;
 }
+.msgoffcanvas{
+  border-left: 1px solid var(--modalBackgroundColor) !important;
+}
 .searchinput form input::placeholder {
   font-weight: lighter;
   color: #8a8a8a;

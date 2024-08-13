@@ -13,6 +13,11 @@ const SearchModal = () => {
     setName(e.target.value);
   };
 
+  const gotoProfile = async (userName) => {
+    navigate(`/${userName}`);
+    window.location.reload();
+  };
+
   const searchUser = async () => {
     const RequestOptions = {
       method: "POST",
@@ -82,7 +87,9 @@ const SearchModal = () => {
                 <div
                   className="msg d-flex justify-content-between mb-3"
                   key={profiles.id}
-                  // onClick={gotoProfile(profiles._id)}
+                  onClick={() => {
+                    gotoProfile(profiles.username);
+                  }}
                 >
                   <div className="msg-wrap d-flex gap-3">
                     <img
@@ -102,7 +109,6 @@ const SearchModal = () => {
           ) : (
             <h6>No users Found</h6>
           )}
-          
         </div>
       </div>
     </>

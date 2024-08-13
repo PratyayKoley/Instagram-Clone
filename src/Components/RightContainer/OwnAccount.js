@@ -3,7 +3,7 @@ import SwitchAcc from "../LeftContainer/SwitchAcc";
 import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
 const OwnAccount = () => {
-  const { userId } = useContext(UserInfoContext);
+  const { userName } = useContext(UserInfoContext);
   const [realname, setRealname] = useState("");
   const [username, setUsername] = useState("");
 
@@ -13,7 +13,7 @@ const OwnAccount = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userid: userId }),
+      body: JSON.stringify({ userName: userName }),
     };
 
     const response = await fetch(
@@ -27,7 +27,7 @@ const OwnAccount = () => {
   };
   useEffect(() => {
     fetchUserData();
-  }, [userId]);
+  }, [userName]);
 
   return (
     <>

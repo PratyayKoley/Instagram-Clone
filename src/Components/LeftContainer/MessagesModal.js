@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import Dropdown from "../../Icons/Drop_Down.svg";
 import New_Chat from "../../Icons/New_Chat.svg";
 import Hidden from "../../Icons/Hidden.svg";
@@ -10,22 +10,33 @@ import GreaterThanLight from "../../Icons (Light Mode)/GreaterThanLight.svg";
 import SwitchAcc from "./SwitchAcc";
 import messages from "../../JSONS/stories.json";
 import { DarkModeContext } from "../../App";
+import UserMsgModal from "./UserMsgModal";
 
 const MessagesModal = () => {
   const DarkModeSetting = useContext(DarkModeContext);
   const generalmsg = messages.slice(3, 5);
   const [activeTab, setActiveTab] = useState("primary");
+  const offcanvasRightRef = useRef(null);
 
   const handleTab = (item) => {
     setActiveTab(item);
   };
 
+  const handleCanvas = () => {
+    if(offcanvasRightRef.current){
+      offcanvasRightRef.current.style.transform = 'translateX(0%)';
+      offcanvasRightRef.current.style.visibility = 'visible';
+    }
+  }
+
   return (
     <>
       <div
         className={`messagemodal offcanvas offcanvas-start ${
-            DarkModeSetting.darkMode ? "bg-black text-white" : "bg-white text-black"
-          } rounded-2`}
+          DarkModeSetting.darkMode
+            ? "bg-black text-white"
+            : "bg-white text-black"
+        } rounded-2`}
         data-bs-scroll="true"
         tabIndex="-1"
         id="messagekamodal"
@@ -46,9 +57,15 @@ const MessagesModal = () => {
               >
                 itecheducation.official
               </h5>
-              <img src={DarkModeSetting.darkMode ? Dropdown : DropdownLight} alt="Switch" />
+              <img
+                src={DarkModeSetting.darkMode ? Dropdown : DropdownLight}
+                alt="Switch"
+              />
             </div>
-            <img src={DarkModeSetting.darkMode ? New_Chat : New_ChatLight} alt="New Chat" />
+            <img
+              src={DarkModeSetting.darkMode ? New_Chat : New_ChatLight}
+              alt="New Chat"
+            />
           </div>
           <div className="msgtype w-100">
             <ul
@@ -115,6 +132,7 @@ const MessagesModal = () => {
               <div
                 className="msg d-flex justify-content-between mb-3"
                 key={item.id}
+                onClick={handleCanvas}
               >
                 <div className="msg-wrap d-flex gap-3">
                   <img src={item.dp_url} alt="Own_dp" />
@@ -156,18 +174,27 @@ const MessagesModal = () => {
             <div className="hide w-100 d-flex justify-content-between">
               <div className="eyeicon d-flex gap-3 align-items-center">
                 <div className="eyeimg d-flex justify-content-center align-items-center">
-                  <img src={DarkModeSetting.darkMode ? Hidden : HiddenLight} alt="Hidden Eye" />
+                  <img
+                    src={DarkModeSetting.darkMode ? Hidden : HiddenLight}
+                    alt="Hidden Eye"
+                  />
                 </div>
                 <span>Hidden Requests</span>
               </div>
               <div className="greaterthan d-flex align-items-center me-2">
-                <img src={DarkModeSetting.darkMode ? GreaterThan : GreaterThanLight} alt="Greater Than" />
+                <img
+                  src={
+                    DarkModeSetting.darkMode ? GreaterThan : GreaterThanLight
+                  }
+                  alt="Greater Than"
+                />
               </div>
             </div>
           </div>
         )}
       </div>
       <SwitchAcc />
+      <UserMsgModal rightref={offcanvasRightRef}/>
     </>
   );
 };

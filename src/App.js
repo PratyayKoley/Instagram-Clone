@@ -68,7 +68,7 @@ const App = () => {
       ),
     },
     {
-      path: "/profilepage",
+      path: "/:username",
       element: (
         <ProtectedComponent>
           <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>

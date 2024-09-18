@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ContextValues } from "./LeftContainer";
+import { ContextValues } from "../LeftContainer/LeftContainer";
 
 function SetAudienceModal() {
 

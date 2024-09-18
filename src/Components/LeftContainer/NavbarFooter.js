@@ -18,8 +18,8 @@ import SunLight from "../../Icons (Light Mode)/SunLight.svg";
 import ReportLight from "../../Icons (Light Mode)/ReportLight.svg";
 import LessThanLight from "../../Icons (Light Mode)/LessThanLight.svg";
 import { DarkModeContext } from "../../App";
-import SwitchAcc from "./SwitchAcc";
-import ReportProblem from "./ReportProblem";
+import SwitchAcc from "../Modals/SwitchAcc";
+import ReportProblem from "../Modals/ReportProblem";
 import { useNavigate } from "react-router-dom";
 
 export const ModeContext = createContext();

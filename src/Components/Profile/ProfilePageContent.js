@@ -27,10 +27,7 @@ const ProfilePageContent = () => {
   const [numfollowers, setNumFollowers] = useState("");
   const [numfollowing, setNumFollwing] = useState("");
   const [numposts, setNumPosts] = useState("");
-  const [bio, setBio] = useState("");
-
-  console.log();
-  
+  const [bio, setBio] = useState("");   
 
   const handleTab = (item) => {
     setActiveTab(item);

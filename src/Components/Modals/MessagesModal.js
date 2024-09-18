@@ -11,21 +11,56 @@ import SwitchAcc from "./SwitchAcc";
 import messages from "../../JSONS/stories.json";
 import { DarkModeContext } from "../../App";
 import UserMsgModal from "./UserMsgModal";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
-const MessagesModal = () => {
+const MessagesModal = ({ allUsers }) => {  
   const DarkModeSetting = useContext(DarkModeContext);
+  const { userName } = useContext(UserInfoContext);
   const generalmsg = messages.slice(3, 5);
   const [activeTab, setActiveTab] = useState("primary");
   const offcanvasRightRef = useRef(null);
+  const [selectedUser,setSelectedUser] = useState(null);
+  const [recepientStatus, setRecepientStatus] = useState(false);
+  const [recUsername, setRecUsername] = useState(null);
 
   const handleTab = (item) => {
     setActiveTab(item);
   };
 
   const handleCanvas = () => {
-    if(offcanvasRightRef.current){
-      offcanvasRightRef.current.style.transform = 'translateX(0%)';
-      offcanvasRightRef.current.style.visibility = 'visible';
+    if (offcanvasRightRef.current) {
+      offcanvasRightRef.current.style.transform = "translateX(0%)";
+      offcanvasRightRef.current.style.visibility = "visible";
+    }
+  };
+
+  const checkUserOnline = async (recepientUsername) => {
+    try {
+      const RequestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          recuserName: recepientUsername,
+        })
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/is-user-online`, RequestOptions);
+
+      const data = await response.json()
+
+      if(data.online){
+        console.log(`User is online ${data.socket_id}`);
+        setRecepientStatus(true);
+      }
+      else{
+        console.log("User is offline");
+        setRecepientStatus(false);
+      }
+    }
+    catch (err) {
+      console.error("Error checking user status", err);
     }
   }
 
@@ -55,7 +90,7 @@ const MessagesModal = () => {
                 className="offcanvas-title"
                 id="offcanvasWithBothOptionsLabel"
               >
-                itecheducation.official
+                {userName}
               </h5>
               <img
                 src={DarkModeSetting.darkMode ? Dropdown : DropdownLight}
@@ -128,23 +163,37 @@ const MessagesModal = () => {
 
         {activeTab === "primary" && (
           <div className="offcanvas-body">
-            {messages.map((item) => (
-              <div
-                className="msg d-flex justify-content-between mb-3"
-                key={item.id}
-                onClick={handleCanvas}
-              >
-                <div className="msg-wrap d-flex gap-3">
-                  <img src={item.dp_url} alt="Own_dp" />
-                  <span className="followups d-flex flex-column justify-content-center">
-                    <span className="acc_name w-100">
-                      <strong>{item.user_name}</strong>
+            {allUsers.length > 0 ? (
+              allUsers.map((item) => (
+                <div
+                  className="msg d-flex justify-content-between mb-3"
+                  key={item.id}
+                  onClick={() => {
+                    handleCanvas();
+                    setSelectedUser(item.realname);
+                    checkUserOnline(item.username);
+                    setRecUsername(item.username);
+                  }}
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#messagekamodal"
+                >
+                  <div className="msg-wrap d-flex gap-3">
+                    <img
+                      src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
+                      alt="Own_dp"
+                    />
+                    <span className="followups d-flex flex-column justify-content-center">
+                      <span className="acc_name w-100">
+                        <strong>{item.realname}</strong>
+                      </span>
+                      <span>{item.username}</span>
                     </span>
-                    <span>{item.last_active}</span>
-                  </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <h6>No users Found</h6>
+            )}
           </div>
         )}
 
@@ -194,7 +243,7 @@ const MessagesModal = () => {
         )}
       </div>
       <SwitchAcc />
-      <UserMsgModal rightref={offcanvasRightRef}/>
+      <UserMsgModal rightref={offcanvasRightRef} selectedUser={selectedUser} recepientStatus={recepientStatus} recUsername={recUsername} />
     </>
   );
 };

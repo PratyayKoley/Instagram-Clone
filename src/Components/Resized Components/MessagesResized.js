@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import FooterResize from "../MidContainer/FooterResize";
 import messages from "../../JSONS/stories.json";
 import Dropdown from "../../Icons/Drop_Down.svg";
@@ -9,20 +9,68 @@ import DropdownLight from "../../Icons (Light Mode)/Drop_DownLight.svg";
 import New_ChatLight from "../../Icons (Light Mode)/New_ChatLight.svg";
 import HiddenLight from "../../Icons (Light Mode)/HiddenLight.svg";
 import GreaterThanLight from "../../Icons (Light Mode)/GreaterThanLight.svg";
-import SwitchAcc from "../LeftContainer/SwitchAcc";
+import SwitchAcc from "../Modals/SwitchAcc";
+import UserMsgModal from "../Modals/UserMsgModal";
 import { DarkModeContext } from "../../App";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
-const MessagesResized = () => {
+const MessagesResized = ({allUsers}) => {
   const DarkModeSetting = useContext(DarkModeContext);
+  const { userName } = useContext(UserInfoContext);
   const generalmsg = messages.slice(3, 5);
   const [activeTab, setActiveTab] = useState("primary");
+  const offcanvasRightRef = useRef(null);
+  const [selectedUser,setSelectedUser] = useState(null);
+  const [recepientStatus, setRecepientStatus] = useState(false)
 
   const handleTab = (item) => {
     setActiveTab(item);
   };
 
+  const handleCanvas = () => {
+    if (offcanvasRightRef.current) {
+      offcanvasRightRef.current.style.transform = "translateX(0%)";
+      offcanvasRightRef.current.style.visibility = "visible";
+    }
+  };
+
+  const checkUserOnline = async (recepientUsername) => {
+    try {
+      const RequestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          recuserName: recepientUsername,
+        })
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/is-user-online`, RequestOptions);
+
+      const data = await response.json()
+
+      if(data.online){
+        console.log(`User is online ${data.socket_id}`);
+        setRecepientStatus(true);
+      }
+      else{
+        console.log("User is offline");
+        setRecepientStatus(false);
+      }
+    }
+    catch (err) {
+      console.error("Error checking user status", err);
+    }
+  }
+
   return (
-    <div className={`web_bg ${DarkModeSetting.darkMode ? "bg-black text-white" : "bg-white text-black"} w-100`} data-bs-theme={DarkModeSetting.darkMode ? "dark" : "light"}>
+    <div
+      className={`web_bg ${
+        DarkModeSetting.darkMode ? "bg-black text-white" : "bg-white text-black"
+      } w-100`}
+      data-bs-theme={DarkModeSetting.darkMode ? "dark" : "light"}
+    >
       <div className="msgresize d-flex justify-content-between w-100 p-3">
         <div
           className="switch_acc d-flex"
@@ -30,11 +78,17 @@ const MessagesResized = () => {
           data-bs-target="#switchacc"
         >
           <h5 className="offcanvas-title" id="offcanvasWithBothOptionsLabel">
-            itecheducation.official
+            {userName}
           </h5>
-          <img src={DarkModeSetting.darkMode ? Dropdown : DropdownLight} alt="Switch" />
+          <img
+            src={DarkModeSetting.darkMode ? Dropdown : DropdownLight}
+            alt="Switch"
+          />
         </div>
-        <img src={DarkModeSetting.darkMode ? New_Chat : New_ChatLight} alt="New Chat" />
+        <img
+          src={DarkModeSetting.darkMode ? New_Chat : New_ChatLight}
+          alt="New Chat"
+        />
       </div>
       <SwitchAcc />
       <div className="msgtype w-100 px-3">
@@ -94,25 +148,43 @@ const MessagesResized = () => {
         className="m-0"
         style={{ width: "100%", border: "1px solid #8a8a8a" }}
       />
-      <div className={`vh-100 ${DarkModeSetting.darkMode ? "bg-black" : "bg-white"}`}>
+      <div
+        className={`vh-100 ${
+          DarkModeSetting.darkMode ? "bg-black" : "bg-white"
+        }`}
+      >
         {activeTab === "primary" && (
           <div className="offcanvas-body px-3 py-1">
-            {messages.map((item) => (
-              <div
-                className="msg d-flex justify-content-between mb-3"
-                key={item.id}
-              >
-                <div className="msg-wrap d-flex gap-3">
-                  <img src={item.dp_url} alt="Own_dp" />
-                  <span className="followups d-flex flex-column justify-content-center">
-                    <span className="acc_name w-100">
-                      <strong>{item.user_name}</strong>
+            {allUsers.length > 0 ? (
+              allUsers.map((item) => (
+                <div
+                  className="msg d-flex justify-content-between mb-3"
+                  key={item.id}
+                  onClick={() => {
+                    handleCanvas();
+                    setSelectedUser(item.realname)
+                    checkUserOnline(item.username)
+                  }}
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#messagekamodal"
+                >
+                  <div className="msg-wrap d-flex gap-3">
+                    <img
+                      src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
+                      alt="Own_dp"
+                    />
+                    <span className="followups d-flex flex-column justify-content-center">
+                      <span className="acc_name w-100">
+                        <strong>{item.realname}</strong>
+                      </span>
+                      <span>{item.username}</span>
                     </span>
-                    <span>{item.last_active}</span>
-                  </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <h6>No users Found</h6>
+            )}
           </div>
         )}
 
@@ -142,20 +214,33 @@ const MessagesResized = () => {
             <div className="hide w-100 d-flex justify-content-between">
               <div className="eyeicon d-flex gap-3 align-items-center">
                 <div className="eyeimg d-flex justify-content-center align-items-center">
-                  <img src={DarkModeSetting.darkMode ? Hidden : HiddenLight} alt="Hidden Eye" />
+                  <img
+                    src={DarkModeSetting.darkMode ? Hidden : HiddenLight}
+                    alt="Hidden Eye"
+                  />
                 </div>
                 <span>Hidden Requests</span>
               </div>
               <div className="greaterthan d-flex align-items-center me-2">
-                <img src={DarkModeSetting.darkMode ? GreaterThan : GreaterThanLight} alt="Greater Than" />
+                <img
+                  src={
+                    DarkModeSetting.darkMode ? GreaterThan : GreaterThanLight
+                  }
+                  alt="Greater Than"
+                />
               </div>
             </div>
           </div>
         )}
       </div>
-      <div className={`footContainer position-fixed w-100 px-3 bottom-0 ${DarkModeSetting.darkMode ? "bg-black" : "bg-white"}`}>
+      <div
+        className={`footContainer position-fixed w-100 px-3 bottom-0 ${
+          DarkModeSetting.darkMode ? "bg-black" : "bg-white"
+        }`}
+      >
         <FooterResize />
       </div>
+      <UserMsgModal rightref={offcanvasRightRef} selectedUser={selectedUser} recepientStatus={recepientStatus} />
     </div>
   );
 };

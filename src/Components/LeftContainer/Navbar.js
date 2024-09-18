@@ -35,11 +35,11 @@ import fillCreateLight from "../../Icons (Light Mode)/fillCreateLight.svg";
 import fillProfileLight from "../../Icons (Light Mode)/fillProfileLight.svg";
 import PostLight from "../../Icons (Light Mode)/PostLight.svg";
 import VideoLight from "../../Icons (Light Mode)/VideoLight.svg";
-import PostModal from "./PostModal";
-import VideoModal from "./VideoModal";
-import SearchModal from "./SearchModal";
-import NotificationsModal from "./NotificationsModal";
-import MessagesModal from "./MessagesModal";
+import PostModal from "../Modals/PostModal";
+import VideoModal from "../Modals/VideoModal";
+import SearchModal from "../Modals/SearchModal";
+import NotificationsModal from "../Modals/NotificationsModal";
+import MessagesModal from "../Modals/MessagesModal";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../App";
 import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
@@ -54,9 +54,29 @@ function Navbar({
   const [activeItem, setActiveItem] = useState("home");
   const DarkModeSetting = useContext(DarkModeContext);
   const {userName} = useContext(UserInfoContext);
+  const [allUsers, setAllUsers] = useState([]);
 
   const handleItemClick = (item) => {
     setActiveItem(item);
+  };
+
+  const users = async () => {
+    const RequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/get-all-users`,
+      RequestOptions
+    );
+    const data = await response.json();
+
+    if (data.status) {
+      setAllUsers(data.data);
+    }
   };
 
   return (
@@ -177,6 +197,7 @@ function Navbar({
         onClick={() => {
           handleItemClick("messages");
           handleMessage();
+          users();
         }}
       >
         <img
@@ -312,7 +333,7 @@ function Navbar({
       <NotificationsModal />
 
       {/* Messages Offcanvas  */}
-      <MessagesModal />
+      <MessagesModal allUsers={allUsers}/>
 
       {/* Video Modal */}
       <VideoModal />

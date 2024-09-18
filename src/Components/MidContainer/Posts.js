@@ -14,6 +14,7 @@ import EmojiLight from "../../Icons (Light Mode)/EmojiLight.svg";
 import fillSavedLight from "../../Icons (Light Mode)/fillSavedLight.svg";
 import NotificationsLight from "../../Icons (Light Mode)/NotificationsLight.svg";
 import posts from "../../JSONS/stories.json";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 
 import { DarkModeContext } from "../../App";
 
@@ -28,6 +29,7 @@ const Posts = () => {
   const textRef = useRef({});
   const moreRef = useRef({});
   const inputRef = useRef({});
+  const [showPicker, setShowPicker] = useState({});
 
   useEffect(() => {
     // Initialize state variables with data from JSON
@@ -37,6 +39,7 @@ const Posts = () => {
     const initialShowPostBtn = {};
     const initialOverflowText = {};
     const initialSaved = {};
+    const initialShowPicker = {};
 
     posts.forEach((item) => {
       initialNumLikes[item.id] = item.num_likes;
@@ -45,6 +48,7 @@ const Posts = () => {
       initialLiked[item.id] = false; // Assuming none of the posts are initially liked
       initialShowPostBtn[item.id] = false; // Assuming post button is initially hidden for all posts
       initialOverflowText[item.id] = false; // Initially assuming no text is overflowing
+      initialShowPicker[item.id] = false;
     });
 
     setNumLikes(initialNumLikes);
@@ -53,6 +57,7 @@ const Posts = () => {
     setSaved(initialSaved);
     setShowPostBtn(initialShowPostBtn);
     setOverflowedText(initialOverflowText);
+    setShowPicker(initialShowPicker);
   }, []);
 
   useEffect(() => {
@@ -90,18 +95,16 @@ const Posts = () => {
 
   const handleDoubleClick = (postId) => {
     setLiked((prevLiked) => {
-
-      if(!prevLiked[postId])
-        {
-          setNumLikes((prevNumLikes) => ({
-            ...prevNumLikes,
-            [postId]: prevNumLikes[postId] + 1,
-          }));
-          return {
-            ...prevLiked,
-            [postId]: true,
-        } 
-      };
+      if (!prevLiked[postId]) {
+        setNumLikes((prevNumLikes) => ({
+          ...prevNumLikes,
+          [postId]: prevNumLikes[postId] + 1,
+        }));
+        return {
+          ...prevLiked,
+          [postId]: true,
+        };
+      }
       return prevLiked;
     });
   };
@@ -136,6 +139,34 @@ const Posts = () => {
       ...prevNumComments,
       [postId]: prevNumComments[postId] + 1,
     }));
+  };
+
+  const handleShowEmojis = (postId) => {
+    setShowPicker((prevEmoji) => ({
+      ...prevEmoji,
+      [postId]: !prevEmoji[postId],
+    }));
+  };
+
+  const onEmojiClick = (postId, emojiObject) => {
+    
+    const emojiSrc = emojiObject.target.src;
+
+    if (inputRef.current[postId]) {
+      console.log(inputRef.current[postId].value);
+      
+      // Add the emoji image as part of the input value
+      inputRef.current[postId].innerHTML =
+        (inputRef.current[postId].value || "") +
+        `<img src="${emojiSrc}"/>`;
+
+        console.log(inputRef.current[postId].value);
+
+      setShowPicker((prevEmoji) => ({
+        ...prevEmoji,
+        [postId]: false,
+      }));
+    }
   };
 
   return (
@@ -270,12 +301,28 @@ const Posts = () => {
                   <strong>Post</strong>
                 </div>
               )}
-              <div className="emoji">
+              <div className="emoji" style={{ position: "relative" }}>
                 <img
                   src={DarkModeSetting.darkMode ? Emoji : EmojiLight}
                   alt="Emoji"
                   style={{ cursor: "pointer" }}
+                  onClick={() => handleShowEmojis(item.id)}
                 />
+                {showPicker[item.id] && (
+                  <EmojiPicker
+                    pickerStyle={{ width: "100%" }}
+                    style={{
+                      position: "absolute",
+                      bottom: "100%", // Position the popup below the button
+                      right: "0", // Align the popup to the left edge of the button
+                      maxHeight: "300px",
+                    }}
+                    onEmojiClick={(event, emojiObject) =>
+                      onEmojiClick(item.id, emojiObject)
+                    }
+                    theme={DarkModeSetting.darkMode ? Theme.DARK : Theme.LIGHT}
+                  />
+                )}
               </div>
             </div>
           </footer>

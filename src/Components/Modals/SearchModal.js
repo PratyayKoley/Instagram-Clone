@@ -50,7 +50,7 @@ const SearchModal = () => {
       <div
         className={`searchmodal offcanvas offcanvas-start ${
           DarkModeSetting.darkMode
-            ? "bg-black text-white"
+            ? "bg-black text-white" 
             : "bg-white text-black"
         } rounded-2`}
         data-bs-scroll="true"

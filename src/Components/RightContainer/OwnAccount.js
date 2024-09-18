@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import SwitchAcc from "../LeftContainer/SwitchAcc";
+import SwitchAcc from "../Modals/SwitchAcc";
 import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
 const OwnAccount = () => {

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import Video_Modal from "../../Icons/Video_Modal.svg";
 import Video_ModalLight from "../../Icons (Light Mode)/Video_ModalLight.svg";
-import SetAudienceModal from "./SetAudienceModal";
-import { ContextValues } from "./LeftContainer";
+import SetAudienceModal from "../Modals/SetAudienceModal";
+import { ContextValues } from "../LeftContainer/LeftContainer";
 import { DarkModeContext } from "../../App";
 
 function VideoModal() {

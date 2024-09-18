@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import FooterResize from "../MidContainer/FooterResize";
 import Settings from "../../Icons/Settings.svg";
 import Dropdown from "../../Icons/Drop_Down.svg";
@@ -17,15 +18,58 @@ import ProfReelsLight from "../../Icons (Light Mode)/ProfileReelsLight.svg";
 import ProfSavedLight from "../../Icons (Light Mode)/ProfileSavedLight.svg";
 import ProfTaggedLight from "../../Icons (Light Mode)/ProfileTaggedLight.svg";
 import profposts from "../../JSONS/posts.json";
-import SwitchAcc from "../LeftContainer/SwitchAcc";
+import SwitchAcc from "../Modals/SwitchAcc";
 import { DarkModeContext } from "../../App";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
 const ProfileResized = () => {
   const DarkModeSetting = useContext(DarkModeContext);
   const [activeTab, setActiveTab] = useState("posts");
+  const { pathname } = useLocation();
+  const { userName } = useContext(UserInfoContext);
+  const [realname, setRealname] = useState("");
+  const [username, setUsername] = useState("");
+  const [numfollowers, setNumFollowers] = useState("");
+  const [numfollowing, setNumFollwing] = useState("");
+  const [numposts, setNumPosts] = useState("");
+  const [bio, setBio] = useState(""); 
+
   const handleTab = (item) => {
     setActiveTab(item);
   };
+
+  const pullProfileInfo = async () => {
+
+    
+    const RequestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: pathname.split("/")[1],
+      }),
+    };
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_LINK}/get-profile-data`,
+      RequestOptions
+    );
+
+    const data = await response.json();
+
+    setRealname(data.realname);
+    setUsername(data.username);
+    setNumFollowers(data.num_followers);
+    setNumFollwing(data.num_following);
+    setNumPosts(data.num_posts);
+    setBio(data.bio);
+  };
+
+  useEffect(() => {
+    pullProfileInfo();
+  }, [userName]);
+
   return (
     <div
       className={`web_bg ${
@@ -52,7 +96,7 @@ const ProfileResized = () => {
               className="offcanvas-title m-0"
               id="offcanvasWithBothOptionsLabel"
             >
-              itecheducation.official
+              {username}
             </h6>
             <img
               src={DarkModeSetting.darkMode ? Dropdown : DropdownLight}
@@ -78,7 +122,7 @@ const ProfileResized = () => {
           </div>
           <div className="accinfo d-flex flex-column w-100">
             <div className="username d-flex flex-column flex-md-row gap-2 align-items-center">
-              <div className="name fw-medium">itecheducation.official</div>
+              <div className="name fw-medium">{username}</div>
               <div className="d-flex gap-2 mt-2 mt-md-0">
                 <button type="button" className="button btn btn-light btn-sm">
                   Edit profile
@@ -100,13 +144,13 @@ const ProfileResized = () => {
             </div>
             <div className="number d-flex justify-content-center gap-3 gap-md-5 mt-2">
               <span>
-                <strong>0</strong> posts
+                <strong>{numposts}</strong> posts
               </span>
               <span>
-                <strong>1,269</strong> followers
+                <strong>{numfollowers}</strong> followers
               </span>
               <span>
-                <strong>325</strong> following
+                <strong>{numfollowing}</strong> following
               </span>
             </div>
             <hr
@@ -117,12 +161,8 @@ const ProfileResized = () => {
               }}
             />
             <div className="accname mt-3 d-flex align-items-center flex-column gap-0">
-              <span className="fw-semibold">ITechEducation.Official</span>
-              <span className="fw-lighter">Education</span>
-              <span className="fw-light">ITech Computer Education</span>
-              <span className="fw-light">Learn From The IT Trainer.</span>
-              <span className="fw-light">📍 Nalasopara 📍 Vasai 📍 Nerul</span>
-              <span className="fw-light">📩 Contact Us Now</span>
+              <span className="fw-semibold">{realname}</span>
+              <span className="fw-lighter">{bio}</span>
             </div>
           </div>
           <hr style={{ border: "1px solid #8a8a8a", width: "100%" }} />

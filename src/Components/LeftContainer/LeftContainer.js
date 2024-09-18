@@ -103,6 +103,7 @@ const LeftContainer = () => {
         !e.target.closest(".searchmodal") &&
         !e.target.closest(".create-container") &&
         !e.target.closest("#more") &&
+        !e.target.closest(".msgoffcanvas") &&
         isSearchActivated
       ) {
         setIsSearchActivated(false);
@@ -114,6 +115,7 @@ const LeftContainer = () => {
         !e.target.closest(".notifymodal") &&
         !e.target.closest(".create-container") &&
         !e.target.closest("#more") &&
+        !e.target.closest(".msgoffcanvas") &&
         isNotifyActivated
       ) {
         setIsNotifyActivated(false);
@@ -125,6 +127,7 @@ const LeftContainer = () => {
         !e.target.closest(".messagemodal") &&
         !e.target.closest(".create-container") &&
         !e.target.closest("#more") &&
+        !e.target.closest(".msgoffcanvas") &&
         isNotifyActivated
       ) {
         setIsMessageActivated(false);

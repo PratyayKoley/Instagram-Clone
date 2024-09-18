@@ -346,3 +346,13 @@
   font-size: 0.8rem;
   color: var(--secondaryTextColor);
 }
+.userinfo .msg-wrap img {
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+}
+.userinfo .msg-wrap span {
+  font-size: 0.80em;
+}

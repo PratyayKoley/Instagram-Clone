@@ -61,8 +61,18 @@ function PostModal() {
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/uploads`, requestOptions);
-    } catch (error) {
+      const data = await response.json();
 
+      if (!data.success) {
+        alert("There was an error submitting the request");
+      }
+
+      setSelectedFiles([]);
+      setDescription("");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error: ", error);
+      alert("Internal Server Error");
     }
   }
 

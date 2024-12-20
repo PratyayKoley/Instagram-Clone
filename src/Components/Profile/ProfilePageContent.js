@@ -24,6 +24,7 @@ const ProfilePageContent = () => {
   const [activeTab, setActiveTab] = useState(state?.activeTab || "posts");
   const [realname, setRealname] = useState("");
   const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   const [numfollowers, setNumFollowers] = useState("");
   const [numfollowing, setNumFollwing] = useState("");
   const [numposts, setNumPosts] = useState("");
@@ -55,6 +56,7 @@ const ProfilePageContent = () => {
 
     setRealname(data.realname);
     setUsername(data.username);
+    setUserId(data.id);
     setNumFollowers(data.num_followers);
     setNumFollwing(data.num_following);
     setNumPosts(data.num_posts);
@@ -210,7 +212,7 @@ const ProfilePageContent = () => {
         </li>
       </ul>
 
-      <ProfilePosts activeTab={activeTab} />
+      <ProfilePosts activeTab={activeTab} userID={userId} />
     </div>
   );
 };

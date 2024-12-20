@@ -32,7 +32,10 @@ const ProfilePosts = ({ activeTab, userID }) => {
         <div className="post2-container container text-center">
           {activeTab === "posts" && (
             Array.isArray(profPosts) && profPosts.length > 0 ? (
-              <div className="row row-cols-3">
+              <div
+                className={`row ${profPosts.length < 3 ? "justify-content-center" : "row-cols-md-3"
+                  }`}
+              >
                 {profPosts.map((item) => {
                   // Check if the `post_url` contains multiple URLs
                   const postUrls = item.post_url.includes(",")
@@ -40,7 +43,11 @@ const ProfilePosts = ({ activeTab, userID }) => {
                     : [item.post_url];
 
                   return (
-                    <div key={item._id} className="col mb-3">
+                    <div
+                      key={item._id}
+                      className={`col mb-3 ${profPosts.length < 3 ? "col-md-auto" : "col-md"
+                        }`}
+                    >
                       {postUrls.length > 1 ? (
                         // Carousel for multiple photos
                         <Carousel data-bs-theme={DarkModeSetting.darkMode ? "light" : "dark"}>
@@ -75,6 +82,7 @@ const ProfilePosts = ({ activeTab, userID }) => {
           )}
         </div>
       </div>
+
 
       {activeTab === "reels" && (
         <div className="proreels my-5">

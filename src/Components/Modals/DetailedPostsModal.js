@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DarkModeContext } from '../../App';
-import { UserInfoContext } from '../ProtectedRoute/Protect_Component';
 import ThreeDots from "../../Icons/ThreeDots.svg";
 import ThreeDotsLight from "../../Icons (Light Mode)/ThreeDotsLight.svg";
 import Like from "../../Icons/Like.svg";
@@ -16,8 +15,8 @@ import EmojisLight from "../../Icons (Light Mode)/EmojisLight.svg";
 
 const DetailedPostsModal = ({ selectedPost }) => {
     const DarkModeSetting = useContext(DarkModeContext);
-    const { userName } = useContext(UserInfoContext);
     const [newComment, setNewComment] = useState("");
+    const [userName, setUserName] = useState("");
     let formattedDate;
 
     if (selectedPost) {
@@ -25,6 +24,29 @@ const DetailedPostsModal = ({ selectedPost }) => {
         const options = { month: "long", day: "numeric" };
         formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObject);
     }
+
+    const getName = async () => {
+        console.log(selectedPost.user_id);
+        const RequestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({user_id: selectedPost.user_id}),
+        }
+
+        const resposne = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-user-data-by-id`, RequestOptions);
+        const data = await resposne.json();
+        console.log(data);
+        setUserName(data.data.username)
+
+    }
+
+    useEffect(() => {
+        if (selectedPost) {
+            getName();
+        }
+    }, [selectedPost])
 
     const [comments, setComments] = useState([
         { id: 1, userName: "Vishal", com: "Hey Guys", time: "4w" },

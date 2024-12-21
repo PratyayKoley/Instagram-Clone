@@ -18,10 +18,13 @@ const DetailedPostsModal = ({ selectedPost }) => {
     const DarkModeSetting = useContext(DarkModeContext);
     const { userName } = useContext(UserInfoContext);
     const [newComment, setNewComment] = useState("");
-    const dateObject = new Date(selectedPost.createdAt);
+    let formattedDate;
 
-    const options = { month: "long", day: "numeric" };
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObject);
+    if (selectedPost) {
+        const dateObject = new Date(selectedPost.createdAt);
+        const options = { month: "long", day: "numeric" };
+        formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObject);
+    }
 
     const [comments, setComments] = useState([
         { id: 1, userName: "Vishal", com: "Hey Guys", time: "4w" },

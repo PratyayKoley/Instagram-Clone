@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import { DarkModeContext } from '../../App';
 import { UserInfoContext } from '../ProtectedRoute/Protect_Component';
 import ThreeDots from "../../Icons/ThreeDots.svg";
@@ -17,21 +17,11 @@ import EmojisLight from "../../Icons (Light Mode)/EmojisLight.svg";
 const DetailedPostsModal = ({ selectedPost }) => {
     const DarkModeSetting = useContext(DarkModeContext);
     const { userName } = useContext(UserInfoContext);
-    const [imgOrientation, setImgOrientation] = useState(null);
+    const [newComment, setNewComment] = useState("");
+    const dateObject = new Date(selectedPost.createdAt);
 
-    useEffect(() => {
-        if (selectedPost) {
-            const img = new Image();
-            img.src = selectedPost.post_url;
-            img.onload = () => {
-                if (img.naturalWidth > img.naturalHeight) {
-                    setImgOrientation("landscape");
-                } else {
-                    setImgOrientation("portrait");
-                }
-            }
-        }
-    })
+    const options = { month: "long", day: "numeric" };
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(dateObject);
 
     const [comments, setComments] = useState([
         { id: 1, userName: "Vishal", com: "Hey Guys", time: "4w" },
@@ -39,7 +29,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
         { id: 3, userName: "Prantik", com: "Bro", time: "3w" },
         { id: 4, userName: "Nikita", com: "Keep it up", time: "1w" },
         { id: 5, userName: "Anushka", com: "Gifts", time: "6w" }
-    ])
+    ]);
 
     return (
         <div
@@ -48,136 +38,135 @@ const DetailedPostsModal = ({ selectedPost }) => {
             tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
-            data-bs-theme={DarkModeSetting.darkMode ? "dark" : "light"}
-            style={{ "--bs-modal-width": "75rem" }}
+            data-bs-theme={DarkModeSetting.darkMode ? 'dark' : 'light'}
+            style={{ "--bs-modal-width": "80vw" }}
         >
             <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content d-flex flex-row">
-                    <div
-                        className="imageBox position-relative overflow-hidden w-50"
-                        style={{ height: "90vh" }}
-                    >
-                        {selectedPost && (
-                            <img
-                                src={selectedPost.post_url}
-                                alt="Post"
-                                className="img-fluid"
-                                style={{
-                                    width: "100%", 
-                                    height: "100%",
-                                    objectFit: imgOrientation === "landscape" ? 'contain' : 'cover',
-                                    objectPosition: "center",
-                                }}
-                            />
-                        )}
-                    </div>
-                    {/* MetaData Section */}
-                    <div className="border-start flex-grow-1">
-                        <div className="border-bottom d-flex flex-row justify-content-between align-items-center p-3">
-                            <div className='d-flex align-items-center gap-2' style={{ cursor: "pointer" }}>
-                                <div>
+                <div className="modal-content">
+                    <div className="row g-0">
+                        {/* Image Section */}
+                        <div
+                            className="col-md-5 d-flex justify-content-center align-items-center"
+                            style={{ height: '80vh' }}
+                        >
+                            {selectedPost && (
+                                <img
+                                    src={selectedPost.post_url}
+                                    alt="Post"
+                                    className="img-fluid"
+                                    style={{
+                                        maxHeight: '100%',
+                                        maxWidth: '100%',
+                                    }}
+                                />
+                            )}
+                        </div>
+                        {/* MetaData Section */}
+                        <div className="col-md-7 d-flex flex-column border-start">
+                            {/* Header */}
+                            <div className="d-flex justify-content-between align-items-center border-bottom p-3">
+                                <div className="d-flex align-items-center gap-2">
                                     <img
                                         src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
-                                        alt="Own_dp"
-                                        style={{ objectFit: "cover", width: "32px", height: "32px", borderRadius: "50%" }}
+                                        alt="User"
+                                        className="rounded-circle"
+                                        style={{ width: '32px', height: '32px', objectFit: 'cover' }}
                                     />
+                                    <span className="fw-semibold" style={{ fontSize: '14px' }}>{userName}</span>
                                 </div>
-                                <div className='fw-semibold' style={{ fontSize: "14px" }}>lafz_dil_ke_0</div>
+                                <img
+                                    src={DarkModeSetting.darkMode ? ThreeDots : ThreeDotsLight}
+                                    alt="More"
+                                    className="cursor-pointer"
+                                />
                             </div>
-                            <div>
-                                <img src={DarkModeSetting.darkMode ? ThreeDots : ThreeDotsLight} style={{ cursor: "pointer" }} alt='More' />
-                            </div>
-                        </div>
 
-                        {selectedPost && (
-                            <div className="p-3 border-bottom" style={{ height: "60vh" }}>
-                                {selectedPost.post_desc || comments.length > 0 ? (
-                                    <>
-                                        {/* Post Description */}
-                                        {selectedPost.post_desc && (
-                                            <div className='d-flex align-items-center gap-2' style={{ cursor: "pointer" }}>
-                                                <div>
-                                                    <img
-                                                        src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
-                                                        alt="Own_dp"
-                                                        style={{ objectFit: "cover", width: "32px", height: "32px", borderRadius: "50%" }}
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <div className='d-flex flex-row gap-2'>
-                                                        <div className='fw-semibold' style={{ fontSize: "14px" }}>{userName}</div>
-                                                        <div className='fw-normal' style={{ fontSize: "14px" }}>{selectedPost.post_desc}</div>
-                                                    </div>
-                                                    <div className='fw-light text-muted' style={{ fontSize: "12px" }}>49w</div>
-                                                </div>
+                            {/* Post Description and Comments */}
+                            <div className="flex-grow-1 overflow-auto p-3">
+                                {selectedPost?.post_desc && (
+                                    <div className="d-flex align-items-start gap-2 mb-2">
+                                        <img
+                                            src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
+                                            alt="User"
+                                            className="rounded-circle"
+                                            style={{ width: '32px', height: '32px', objectFit: 'cover' }}
+                                        />
+                                        <div>
+                                            <div className='d-flex flex-row gap-2'>
+                                                <span className="fw-semibold" style={{ fontSize: "14px" }}>{userName}</span>
+                                                <span style={{ fontSize: "14px" }}>{selectedPost.post_desc}</span>
                                             </div>
-                                        )}
-
-                                        {/* Comments */}
-                                        {comments.length > 0 && (
-                                            <div>
-                                                {comments.slice(0, 4).map((comment) => (
-                                                    <div key={comment.id} className="py-2">
-                                                        <div className='d-flex align-items-center gap-2' style={{ cursor: "pointer" }}>
-                                                            <div>
-                                                                <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
-                                                                    alt="Own_dp" style={{ objectFit: "cover", width: "32px", height: "32px", borderRadius: "50%" }} />
-                                                            </div>
-                                                            <div>
-                                                                <div className='d-flex flex-row gap-2'>
-                                                                    <span className='fw-semibold' style={{ fontSize: "14px" }}>{comment.userName}</span>
-                                                                    <span className='fw-normal' style={{ fontSize: "14px" }}>{comment.com}</span>
-                                                                </div>
-                                                                <div className='fw-light text-muted' style={{ fontSize: "12px" }}>{comment.time}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="text-center text-muted">
-                                        No conversations yet.
+                                            <div className='fw-light text-muted' style={{ fontSize: "12px" }}>49w</div>
+                                        </div>
                                     </div>
                                 )}
-                            </div>
-                        )}
 
-                        <div className="likedSection p-3 border-bottom">
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div className='d-flex gap-3 flex-row' style={{ cursor: "pointer" }}>
-                                    <img src={DarkModeSetting.darkMode ? Like : LikeLight} alt='Like' />
-                                    <img src={DarkModeSetting.darkMode ? Comment : CommentLight} alt='Comment' />
-                                    <img src={DarkModeSetting.darkMode ? Share : ShareLight} alt='Share' />
-                                </div>
-                                <div style={{ cursor: "pointer" }}>
-                                    <img src={DarkModeSetting.darkMode ? Saved : SavedLight} alt='Save' />
-                                </div>
+                                {comments.length > 0 ? (
+                                    comments.map((comment) => (
+                                        <div key={comment.id} className="d-flex align-items-start gap-2 mb-2">
+                                            <img
+                                                src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
+                                                alt="User"
+                                                className="rounded-circle"
+                                                style={{ width: '32px', height: '32px', objectFit: 'cover' }}
+                                            />
+                                            <div>
+                                                <div className='d-flex flex-row gap-2'>
+                                                    <span className="fw-semibold" style={{ fontSize: "14px" }}>{comment.userName}</span>
+                                                    <span style={{ fontSize: "14px" }}>{comment.com}</span>
+                                                </div>
+                                                <div className='fw-light text-muted' style={{ fontSize: "12px" }}>{comment.time}</div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="text-center text-muted">No conversations yet.</div>
+                                )}
                             </div>
 
-                            <div className="mt-2 d-flex align-items-center gap-1">
-                                <div>
-                                    <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
-                                        alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%" }} />
-                                    <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
-                                        alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%", marginLeft: "-5px" }} />
+                            {/* Action Buttons */}
+                            <div className="border-top p-3">
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                    <div className="d-flex gap-3" style={{ cursor: 'pointer' }}>
+                                        <img src={DarkModeSetting.darkMode ? Like : LikeLight} alt="Like" />
+                                        <img src={DarkModeSetting.darkMode ? Comment : CommentLight} alt="Comment" />
+                                        <img src={DarkModeSetting.darkMode ? Share : ShareLight} alt="Share" />
+                                    </div>
+                                    <img src={DarkModeSetting.darkMode ? Saved : SavedLight} alt="Save" style={{ cursor: "pointer" }} />
                                 </div>
-                                <div style={{ fontSize: "14px" }}>Liked by <span className='fw-semibold'>sahil_adak</span> and <span className='fw-semibold'>4 others</span></div>
+                                <div className="d-flex align-items-center gap-2">
+                                    <div style={{ cursor: "pointer" }}>
+                                        <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
+                                            alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%" }} />
+                                        <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
+                                            alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%", marginLeft: "-5px" }} />
+                                    </div>
+                                    <div style={{ fontSize: "14px" }}>Liked by <strong style={{ cursor: "pointer" }}>sahil_adak</strong> and <strong style={{ cursor: "pointer" }}>4 others</strong></div>
+                                </div>
+                                <div className='fw-normal text-muted mt-1' style={{ fontSize: "12px" }}>{formattedDate}</div>
                             </div>
-                            <span className='fw-light text-muted' style={{ fontSize: "13px" }}>January 12</span>
-                        </div>
 
-                        <div className='px-3'>
-                            <div className="d-flex">
-                                <img src={DarkModeSetting.darkMode ? Emojis : EmojisLight} alt="Emojis" />
+                            {/* Add Comment */}
+                            <div className="px-3 py-2 border-top">
+                                <div className="d-flex align-items-center gap-2">
+                                    <img src={DarkModeSetting.darkMode ? Emojis : EmojisLight} alt="Emoji" />
+                                    <textarea
+                                        rows="1"
+                                        value={newComment}
+                                        style={{ fontSize: "14px", resize: 'none' }}
+                                        className="form-control border-0 bg-transparent fw-light"
+                                        onChange={(e) => setNewComment(e.target.value)}
+                                        placeholder="Add a comment..."
+                                    />
+                                    <div className={`${newComment ? 'text-primary' : 'text-muted'} fw-semibold`} style={{ fontSize: "14px", cursor: newComment ? 'pointer' : 'default', pointerEvents: newComment ? 'auto' : 'none' }}>Post</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default DetailedPostsModal;

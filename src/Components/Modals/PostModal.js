@@ -154,6 +154,7 @@ function PostModal() {
             <button
               type="button"
               className="btn btn-outline-danger"
+              onClick={() => { setSelectedFiles([]); setDescription("") }}
               data-bs-dismiss="modal"
             >
               Cancel

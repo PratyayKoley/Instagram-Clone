@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import { DarkModeContext } from "../../App";
+import DetailedPostsModal from "../Modals/DetailedPostsModal";
 
 const ProfilePosts = ({ activeTab, userID }) => {
   const [profPosts, setProfPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
   const DarkModeSetting = useContext(DarkModeContext);
 
   const getPosts = async () => {
@@ -24,7 +26,9 @@ const ProfilePosts = ({ activeTab, userID }) => {
     getPosts();
   }, [userID]);
 
-  console.log(profPosts);
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+  }
 
   return (
     <>
@@ -49,10 +53,10 @@ const ProfilePosts = ({ activeTab, userID }) => {
                         }`}
                     >
                       {postUrls.length > 1 ? (
-                        // Carousel for multiple photos
                         <Carousel data-bs-theme={DarkModeSetting.darkMode ? "light" : "dark"}>
                           {postUrls.map((url, index) => (
-                            <Carousel.Item key={index}>
+                            <Carousel.Item key={index} style={{ cursor: "pointer" }} onClick={() => handlePostClick(item)} data-bs-toggle="modal"
+                              data-bs-target="#exampleModal">
                               <img
                                 src={url.trim()}
                                 alt={`Post ${index + 1}`}
@@ -62,11 +66,14 @@ const ProfilePosts = ({ activeTab, userID }) => {
                           ))}
                         </Carousel>
                       ) : (
-                        // Single photo
                         <img
                           src={postUrls[0].trim()}
                           alt="Post"
                           className="img-fluid mx-auto my-auto"
+                          style={{ cursor: "pointer" }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          onClick={() => handlePostClick(item)}
                         />
                       )}
                     </div>
@@ -105,6 +112,8 @@ const ProfilePosts = ({ activeTab, userID }) => {
           <span className="fw-light fs-6">When people tag you in photos, they'll appear here.</span>
         </div>
       )}
+
+      <DetailedPostsModal selectedPost={selectedPost} />
     </>
   );
 };

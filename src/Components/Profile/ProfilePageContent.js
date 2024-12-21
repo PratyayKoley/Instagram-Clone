@@ -1,11 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 import Memories from "./Memories";
+import AddUser from "../../Icons/AddUser.svg"
 import Settings from "../../Icons/Settings.svg";
 import ProfilePosts from "./ProfilePosts";
 import ProfPosts from "../../Icons/ProfilePosts.svg";
 import ProfReels from "../../Icons/ProfileReels.svg";
 import ProfSaved from "../../Icons/ProfileSaved.svg";
 import ProfTagged from "../../Icons/ProfileTagged.svg";
+import ThreeDots from "../../Icons/ThreeDots.svg";
+import ThreeDotsLight from "../../Icons (Light Mode)/ThreeDotsLight.svg";
+import AddUserLight from "../../Icons (Light Mode)/AddUserLight.svg"
 import SettingsLight from "../../Icons (Light Mode)/SettingsLight.svg";
 import ProfPostsLight from "../../Icons (Light Mode)/ProfilePostsLight.svg";
 import ProfReelsLight from "../../Icons (Light Mode)/ProfileReelsLight.svg";
@@ -28,7 +32,7 @@ const ProfilePageContent = () => {
   const [numfollowers, setNumFollowers] = useState("");
   const [numfollowing, setNumFollwing] = useState("");
   const [numposts, setNumPosts] = useState("");
-  const [bio, setBio] = useState("");   
+  const [bio, setBio] = useState("");
 
   const handleTab = (item) => {
     setActiveTab(item);
@@ -36,7 +40,7 @@ const ProfilePageContent = () => {
 
   const pullProfileInfo = async () => {
 
-    
+
     const RequestOptions = {
       method: "POST",
       headers: {
@@ -85,20 +89,41 @@ const ProfilePageContent = () => {
         </div>
         <div className="accinfo d-flex flex-column">
           <div className="username d-flex gap-2 align-items-center">
-            <div className="name fw-medium">{username}</div>
-            <button type="button" className="button btn fw-semibold">
-              Edit profile
-            </button>
-            <button type="button" className="button btn fw-semibold">
-              View archive
-            </button>
-            <button type="button" className="button btn fw-semibold">
-              Ad tools
-            </button>
-            <img
-              src={DarkModeSetting.darkMode ? Settings : SettingsLight}
-              alt="Settings"
-            />
+            <div className="name fw-medium me-4">{username}</div>
+            {userName === username ? (
+              <>
+                <button type="button" className="button btn fw-semibold">
+                  Edit profile
+                </button>
+                <button type="button" className="button btn fw-semibold">
+                  View archive
+                </button>
+                <button type="button" className="button btn fw-semibold">
+                  Ad tools
+                </button>
+                <img
+                  src={DarkModeSetting.darkMode ? Settings : SettingsLight}
+                  alt="Settings"
+                />
+              </>
+            ) : (
+              <>
+                <button type="button" className="btn btn-primary fw-semibold">
+                  Follow
+                </button>
+                <button className="button btn">
+                  <img
+                    className="p-1"
+                    src={DarkModeSetting.darkMode ? AddUser : AddUserLight}
+                    alt="Settings"
+                  />
+                </button>
+                <img
+                  src={DarkModeSetting.darkMode ? ThreeDots : ThreeDotsLight}
+                  alt="Settings"
+                />
+              </>
+            )}
           </div>
           <div className="number d-flex gap-5 mt-4">
             <span style={{ cursor: "pointer" }}>

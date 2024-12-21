@@ -136,7 +136,7 @@ function PostModal() {
                     alt="PostModal"
                     className="mx-auto d-block"
                   />
-                  <p className="text-muted fs-6">
+                  <p className="fs-6">
                     Drag photos and videos here
                   </p>
                   <p className="text-secondary">OR</p>

@@ -29,7 +29,6 @@ const SwitchAcc = () => {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/login`, LoginOptions);
 
     const data = await response.json();
-    console.log(data);
 
     
     if(data.success){

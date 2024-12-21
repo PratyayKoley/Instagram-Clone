@@ -18,7 +18,6 @@ const ProfilePosts = ({ activeTab, userID }) => {
     if (!data.success) {
       return;
     }
-
     setProfPosts(data.posts);
   }
 
@@ -53,7 +52,7 @@ const ProfilePosts = ({ activeTab, userID }) => {
                         }`}
                     >
                       {postUrls.length > 1 ? (
-                        <Carousel data-bs-theme={DarkModeSetting.darkMode ? "light" : "dark"}>
+                        <Carousel data-bs-theme={DarkModeSetting.darkMode ? "light" : "dark"} controls={false}>
                           {postUrls.map((url, index) => (
                             <Carousel.Item key={index} style={{ cursor: "pointer" }} onClick={() => handlePostClick(item)} data-bs-toggle="modal"
                               data-bs-target="#exampleModal">

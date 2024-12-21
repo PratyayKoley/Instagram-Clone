@@ -12,11 +12,15 @@ import Saved from "../../Icons/Saved.svg";
 import SavedLight from "../../Icons (Light Mode)/SavedLight.svg";
 import Emojis from "../../Icons/Emojis.svg";
 import EmojisLight from "../../Icons (Light Mode)/EmojisLight.svg";
+import { UserInfoContext } from '../ProtectedRoute/Protect_Component';
+import { Carousel } from 'react-bootstrap';
 
 const DetailedPostsModal = ({ selectedPost }) => {
     const DarkModeSetting = useContext(DarkModeContext);
+    const { userName } = useContext(UserInfoContext);
     const [newComment, setNewComment] = useState("");
-    const [userName, setUserName] = useState("");
+    const [postUserName, setPostUserName] = useState("");
+    const [comments, setComments] = useState([]);
     let formattedDate;
 
     if (selectedPost) {
@@ -26,35 +30,94 @@ const DetailedPostsModal = ({ selectedPost }) => {
     }
 
     const getName = async () => {
-        console.log(selectedPost.user_id);
-        const RequestOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({user_id: selectedPost.user_id}),
+        try {
+            const RequestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ user_id: selectedPost.user_id }),
+            }
+
+            const resposne = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-user-data-by-id`, RequestOptions);
+            const data = await resposne.json();
+
+            if (data.userData) {
+                setPostUserName(data.data.username);
+            }
+
+        } catch (error) {
+            console.error("Error: ", error);
+            alert(error);
         }
 
-        const resposne = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-user-data-by-id`, RequestOptions);
-        const data = await resposne.json();
-        console.log(data);
-        setUserName(data.data.username)
+    }
 
+    const postComment = async () => {
+        try {
+            const RequestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    post_id: selectedPost._id,
+                    commentor_name: userName,
+                    comment: newComment.trim(),
+                })
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/post-comment`, RequestOptions);
+
+            const data = await response.json();
+
+            if (!data.success) {
+                alert("There was an error posting the comment. Please try again later.")
+            }
+            comments.push(data.commentData);
+            setNewComment("");
+        }
+        catch (error) {
+            console.error("Error: ", error);
+            alert(error);
+        }
+    }
+
+    const getAllComments = async () => {
+        try {
+            const RequestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ post_id: selectedPost._id })
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-comments`, RequestOptions);
+
+            const data = await response.json();
+            
+
+            if (!data.success) {
+                alert("There was an error. No post found.");
+            }
+            setComments(data.commentData)
+        } catch (error) {
+            console.error("Error: ", error);
+            alert(error);
+        }
     }
 
     useEffect(() => {
         if (selectedPost) {
             getName();
+            getAllComments();
         }
-    }, [selectedPost])
+    }, [selectedPost]);
 
-    const [comments, setComments] = useState([
-        { id: 1, userName: "Vishal", com: "Hey Guys", time: "4w" },
-        { id: 2, userName: "Pritam", com: "Love you Guys", time: "1w" },
-        { id: 3, userName: "Prantik", com: "Bro", time: "3w" },
-        { id: 4, userName: "Nikita", com: "Keep it up", time: "1w" },
-        { id: 5, userName: "Anushka", com: "Gifts", time: "6w" }
-    ]);
+    const postUrls = selectedPost?.post_url.includes(",")
+        ? selectedPost.post_url.split(",").map((url) => url.trim())
+        : [selectedPost?.post_url];
 
     return (
         <div
@@ -71,18 +134,28 @@ const DetailedPostsModal = ({ selectedPost }) => {
                     <div className="row g-0">
                         {/* Image Section */}
                         <div
-                            className="col-md-5 d-flex justify-content-center align-items-center"
+                            className="col-md-5 d-flex justify-content-center align-items-center h-auto"
                             style={{ height: '80vh' }}
                         >
-                            {selectedPost && (
+                            {postUrls.length > 1 ? (
+                                <Carousel data-bs-theme={DarkModeSetting.darkMode ? "dark" : "light"} controls={false}>
+                                    {postUrls.map((url, index) => (
+                                        <Carousel.Item key={index}>
+                                            <img
+                                                src={url}
+                                                alt={`Slide ${index + 1}`}
+                                                className="img-fluid mx-auto my-auto"
+                                                style={{ maxHeight: '100%', maxWidth: '100%' }}
+                                            />
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            ) : (
                                 <img
-                                    src={selectedPost.post_url}
+                                    src={postUrls[0]}
                                     alt="Post"
                                     className="img-fluid"
-                                    style={{
-                                        maxHeight: '100%',
-                                        maxWidth: '100%',
-                                    }}
+                                    style={{ maxHeight: '100%', maxWidth: '100%' }}
                                 />
                             )}
                         </div>
@@ -97,7 +170,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                                         className="rounded-circle"
                                         style={{ width: '32px', height: '32px', objectFit: 'cover' }}
                                     />
-                                    <span className="fw-semibold" style={{ fontSize: '14px' }}>{userName}</span>
+                                    <span className="fw-semibold" style={{ fontSize: '14px' }}>{postUserName}</span>
                                 </div>
                                 <img
                                     src={DarkModeSetting.darkMode ? ThreeDots : ThreeDotsLight}
@@ -107,7 +180,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                             </div>
 
                             {/* Post Description and Comments */}
-                            <div className="flex-grow-1 overflow-auto p-3">
+                            <div className="flex-grow-1 overflow-auto p-3" style={{ height: "60vh", maxHeight: "60vh" }}>
                                 {selectedPost?.post_desc && (
                                     <div className="d-flex align-items-start gap-2 mb-2">
                                         <img
@@ -118,7 +191,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                                         />
                                         <div>
                                             <div className='d-flex flex-row gap-2'>
-                                                <span className="fw-semibold" style={{ fontSize: "14px" }}>{userName}</span>
+                                                <span className="fw-semibold" style={{ fontSize: "14px" }}>{postUserName}</span>
                                                 <span style={{ fontSize: "14px" }}>{selectedPost.post_desc}</span>
                                             </div>
                                             <div className='fw-light text-muted' style={{ fontSize: "12px" }}>49w</div>
@@ -128,7 +201,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
 
                                 {comments.length > 0 ? (
                                     comments.map((comment) => (
-                                        <div key={comment.id} className="d-flex align-items-start gap-2 mb-2">
+                                        <div key={comment._id} className="d-flex align-items-start gap-2 mb-2">
                                             <img
                                                 src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
                                                 alt="User"
@@ -137,15 +210,18 @@ const DetailedPostsModal = ({ selectedPost }) => {
                                             />
                                             <div>
                                                 <div className='d-flex flex-row gap-2'>
-                                                    <span className="fw-semibold" style={{ fontSize: "14px" }}>{comment.userName}</span>
-                                                    <span style={{ fontSize: "14px" }}>{comment.com}</span>
+                                                    <span className="fw-semibold" style={{ fontSize: "14px" }}>{comment.user_name}</span>
+                                                    <span style={{ fontSize: "14px" }}>{comment.comment_desc}</span>
                                                 </div>
-                                                <div className='fw-light text-muted' style={{ fontSize: "12px" }}>{comment.time}</div>
+                                                <div className='fw-light text-muted' style={{ fontSize: "12px" }}>12w</div>
                                             </div>
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="text-center text-muted">No conversations yet.</div>
+                                    <div className='d-flex flex-column justify-content-center align-items-center'>
+                                        <div className="text-center fw-bold fs-5">No comments yet.</div>
+                                        <div className='text-muted text-center' style={{ fontSize: "14px" }}>Start the conversation.</div>
+                                    </div>
                                 )}
                             </div>
 
@@ -183,7 +259,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                                         onChange={(e) => setNewComment(e.target.value)}
                                         placeholder="Add a comment..."
                                     />
-                                    <div className={`${newComment ? 'text-primary' : 'text-muted'} fw-semibold`} style={{ fontSize: "14px", cursor: newComment ? 'pointer' : 'default', pointerEvents: newComment ? 'auto' : 'none' }}>Post</div>
+                                    <div onClick={postComment} className={`${newComment ? 'text-primary' : 'text-muted'} fw-semibold`} style={{ fontSize: "14px", cursor: newComment ? 'pointer' : 'default', pointerEvents: newComment ? 'auto' : 'none' }}>Post</div>
                                 </div>
                             </div>
                         </div>

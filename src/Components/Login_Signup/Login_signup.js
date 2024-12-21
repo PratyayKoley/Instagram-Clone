@@ -42,7 +42,6 @@ const Login_signup = () => {
       `${process.env.REACT_APP_BACKEND_LINK}/register`,
       requestOptions
     );
-    console.log(response);
   };
 
   const handleLogin = async () => {
@@ -63,7 +62,6 @@ const Login_signup = () => {
     );
 
     const data = await response.json();
-    console.log(data);
 
     if (data.success) {
       alert("Login Successful");

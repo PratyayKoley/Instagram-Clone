@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { DarkModeContext } from '../../App';
 import ThreeDots from "../../Icons/ThreeDots.svg";
 import ThreeDotsLight from "../../Icons (Light Mode)/ThreeDotsLight.svg";
@@ -12,6 +12,7 @@ import Saved from "../../Icons/Saved.svg";
 import SavedLight from "../../Icons (Light Mode)/SavedLight.svg";
 import Emojis from "../../Icons/Emojis.svg";
 import EmojisLight from "../../Icons (Light Mode)/EmojisLight.svg";
+import LikedRed from "../../Icons/LikedRed.svg";
 import { UserInfoContext } from '../ProtectedRoute/Protect_Component';
 import { Carousel } from 'react-bootstrap';
 
@@ -21,6 +22,8 @@ const DetailedPostsModal = ({ selectedPost }) => {
     const [newComment, setNewComment] = useState("");
     const [postUserName, setPostUserName] = useState("");
     const [comments, setComments] = useState([]);
+    const [liked, setLiked] = useState(false);
+    const textareaRef = useRef(null);
     let formattedDate;
 
     if (selectedPost) {
@@ -96,7 +99,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-comments`, RequestOptions);
 
             const data = await response.json();
-            
+
 
             if (!data.success) {
                 alert("There was an error. No post found.");
@@ -108,16 +111,106 @@ const DetailedPostsModal = ({ selectedPost }) => {
         }
     }
 
+    const getLiked = async () => {
+        try {
+            const RequestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    post_id: selectedPost._id,
+                    liker_name: userName, 
+                })
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-post-like`, RequestOptions);
+
+            const data = await response.json();
+
+            if(!data.success){
+                setLiked(false);
+            } else {
+                setLiked(true);
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+            alert(error);
+        }
+    }
+
     useEffect(() => {
         if (selectedPost) {
             getName();
             getAllComments();
+            getLiked();
         }
     }, [selectedPost]);
+
+    const textareafocus = () => {
+        textareaRef.current.focus();
+    }
 
     const postUrls = selectedPost?.post_url.includes(",")
         ? selectedPost.post_url.split(",").map((url) => url.trim())
         : [selectedPost?.post_url];
+
+    const postLikes = async () => {
+        if (liked) {
+            try {
+                const RequestOptions = {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        post_id: selectedPost._id,
+                        liker_name: userName,
+                    })
+                }
+
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/post-likes`, RequestOptions);
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    alert("Invalid Post ID or User ID");
+                } else {
+                    setLiked(false);
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+                alert(error);
+            }
+        } else {
+            try {
+                const RequestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        post_id: selectedPost._id,
+                        liker_name: userName
+                    })
+                }
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/post-likes`, RequestOptions);
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    alert("Invalid Post ID or User ID");
+                } else {
+                    setLiked(true);
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+                alert(error);
+            }
+        }
+    }
+
+    console.log(liked);
 
     return (
         <div
@@ -229,8 +322,8 @@ const DetailedPostsModal = ({ selectedPost }) => {
                             <div className="border-top p-3">
                                 <div className="d-flex justify-content-between align-items-center mb-2">
                                     <div className="d-flex gap-3" style={{ cursor: 'pointer' }}>
-                                        <img src={DarkModeSetting.darkMode ? Like : LikeLight} alt="Like" />
-                                        <img src={DarkModeSetting.darkMode ? Comment : CommentLight} alt="Comment" />
+                                        <img src={liked ? (LikedRed) : (DarkModeSetting.darkMode ? Like : LikeLight)} alt="Like" onClick={postLikes} />
+                                        <img src={DarkModeSetting.darkMode ? Comment : CommentLight} alt="Comment" onClick={textareafocus} />
                                         <img src={DarkModeSetting.darkMode ? Share : ShareLight} alt="Share" />
                                     </div>
                                     <img src={DarkModeSetting.darkMode ? Saved : SavedLight} alt="Save" style={{ cursor: "pointer" }} />
@@ -252,6 +345,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                                 <div className="d-flex align-items-center gap-2">
                                     <img src={DarkModeSetting.darkMode ? Emojis : EmojisLight} alt="Emoji" />
                                     <textarea
+                                        ref={textareaRef}
                                         rows="1"
                                         value={newComment}
                                         style={{ fontSize: "14px", resize: 'none' }}

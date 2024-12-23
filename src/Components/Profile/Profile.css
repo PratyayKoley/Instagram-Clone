@@ -1,54 +1,62 @@
 .profile {
-  flex: 1;
-  border-left: 1px solid var(--borderLeft);
-  overflow-x: hidden;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2.5em 2em 0em 2em;
+    flex: 1;
+    border-left: 1px solid var(--borderLeft);
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5em 2em 0em 2em;
 }
+
 .profile::-webkit-scrollbar {
-  width: 0.5em;
-  margin-right: 0.2em;
+    width: 0.5em;
+    margin-right: 0.2em;
 }
 
 .profile::-webkit-scrollbar-thumb {
-  background: var(--scrollbarThumb);
-  border-radius: 5em;
+    background: var(--scrollbarThumb);
+    border-radius: 5em;
 }
 
 .profile::-webkit-scrollbar-track {
-  background: var(--scrollbarTrack);
-  border-radius: 5em;
+    background: var(--scrollbarTrack);
+    border-radius: 5em;
 }
+
 .profile .profileinfo {
     height: fit-content;
 }
+
 .profile .profileinfo .dp img {
     width: 8em;
     height: 8em;
     border-radius: 50%;
 }
+
 .profile .profileinfo .accinfo .username .button {
-    background-color: var(--hiddenBackground); 
+    background-color: var(--hiddenBackground);
     color: var(--textColor);
 }
+
 .profile .profileinfo .accinfo .username .name {
     font-size: 1.2em;
     cursor: pointer;
 }
+
 .profile .profileinfo .accinfo .username img {
     width: 1.5em;
     height: 1.5em;
     cursor: pointer;
 }
+
 .circle1 {
     width: 6em;
     height: 6em;
     position: relative;
     cursor: pointer;
 }
+
 .circle1::before {
     content: '';
     position: absolute;
@@ -56,6 +64,7 @@
     border-radius: 50%;
     background-color: var(--addStoryBorderColor);
 }
+
 .circle1 span:first-child {
     position: absolute;
     background-color: var(--addStoryBackgroundColor);
@@ -67,11 +76,23 @@
     justify-content: center;
     align-items: center;
 }
-.postnav li > div {
+
+.postnav li>div {
     color: var(--profileActiveTab) !important;
 }
-.proposts .post2-container img{
+
+.proposts .post2-container img {
     width: 20em;
     height: 20em;
     object-fit: cover;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

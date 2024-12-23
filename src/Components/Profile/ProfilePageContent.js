@@ -35,6 +35,7 @@ const ProfilePageContent = () => {
   const [numposts, setNumPosts] = useState("");
   const [followResponse, setFollowResponse] = useState(false);
   const [bio, setBio] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleTab = (item) => {
     setActiveTab(item);
@@ -105,9 +106,11 @@ const ProfilePageContent = () => {
 
   useEffect(() => {
     if (userName) {
+      setLoading(true);
       getUserData().then((userId) => {
         if (userId) {
-          pullProfileInfo(userId);
+          pullProfileInfo(userId)
+            .then(() => setLoading(false));
         }
       });
     }
@@ -158,6 +161,27 @@ const ProfilePageContent = () => {
       alert("You cannot follow yourself.");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="d-flex align-items-center justify-content-center profile">
+        <div
+          style={{
+            width: "65px",
+            height: "65px",
+            borderRadius: "50%",
+            border: "6px solid transparent", // Transparent border to create space for the spinner
+            borderTop: "6px solid #f09433", // Set the gradient color for the top border
+            borderRight: "6px solid #e6683c", // Add other gradient colors for the sides
+            borderBottom: "6px solid #dc2743",
+            borderLeft: "6px solid #cc2366",
+            animation: "spin 1.5s linear infinite", // Spinner animation
+            boxSizing: "border-box", // Ensure that the border is included in the total width/height
+          }}
+        ></div>
+      </div>
+    )
+  }
 
   return (
     <div className="profile flex-column">

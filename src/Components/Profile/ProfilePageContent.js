@@ -26,21 +26,51 @@ const ProfilePageContent = () => {
   const { userName } = useContext(UserInfoContext);
   const DarkModeSetting = useContext(DarkModeContext);
   const [activeTab, setActiveTab] = useState(state?.activeTab || "posts");
+  const [currentUserID, setCurrentUserID] = useState("");
   const [realname, setRealname] = useState("");
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
-  const [numfollowers, setNumFollowers] = useState("");
-  const [numfollowing, setNumFollwing] = useState("");
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollwing] = useState([]);
   const [numposts, setNumPosts] = useState("");
+  const [followResponse, setFollowResponse] = useState(false);
   const [bio, setBio] = useState("");
 
   const handleTab = (item) => {
     setActiveTab(item);
   };
 
-  const pullProfileInfo = async () => {
+  const getUserData = async () => {
+    try {
+      const RequestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName: userName,
+        }),
+      };
 
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_LINK}/get-user-data`,
+        RequestOptions
+      );
 
+      const data = await response.json();
+      if (!data.userData) {
+        alert("User not found");
+      } else {
+        setCurrentUserID(data.user_id);
+        return data.user_id; // Return the user ID
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+      alert(error.message);
+    }
+  };
+
+  const pullProfileInfo = async (userId) => {
     const RequestOptions = {
       method: "POST",
       headers: {
@@ -61,11 +91,27 @@ const ProfilePageContent = () => {
     setRealname(data.realname);
     setUsername(data.username);
     setUserId(data.id);
-    setNumFollowers(data.num_followers);
-    setNumFollwing(data.num_following);
+    setFollowers(data.followers || []);
+    setFollwing(data.following || []);
     setNumPosts(data.num_posts);
     setBio(data.bio);
+
+    if (data.followers && data.followers.includes(userId)) {
+      setFollowResponse(true);
+    } else {
+      setFollowResponse(false);
+    }
   };
+
+  useEffect(() => {
+    if (userName) {
+      getUserData().then((userId) => {
+        if (userId) {
+          pullProfileInfo(userId);
+        }
+      });
+    }
+  }, [userName]);
 
   useEffect(() => {
     if (state?.activeTab) {
@@ -74,9 +120,44 @@ const ProfilePageContent = () => {
     }
   }, [state]);
 
-  useEffect(() => {
-    pullProfileInfo();
-  }, [userName]);
+  const handleFollow = async () => {
+    if (userName !== username) {
+      try {
+        const RequestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            [followResponse ? "userToUnfollowID" : "userToFollowID"]: userId,
+            currentUserID: currentUserID,
+          }),
+        };
+
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_LINK}/${followResponse ? "unfollow" : "follow"}`,
+          RequestOptions
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          const updatedFollowers = followResponse
+            ? followers.filter((id) => id !== currentUserID)
+            : [...followers, currentUserID];
+          setFollowers(updatedFollowers);
+          setFollowResponse(!followResponse);
+        } else {
+          alert(`Unable to ${followResponse ? "unfollow" : "follow"}. Please try again.`);
+        }
+      } catch (error) {
+        console.error(error);
+        alert(`Error: ${error.message}`);
+      }
+    } else {
+      alert("You cannot follow yourself.");
+    }
+  };
 
   return (
     <div className="profile flex-column">
@@ -108,8 +189,8 @@ const ProfilePageContent = () => {
               </>
             ) : (
               <>
-                <button type="button" className="btn btn-primary fw-semibold">
-                  Follow
+                <button type="button" className={`btn ${followResponse ? "button" : "btn-primary"} fw-semibold`} onClick={handleFollow}>
+                  {followResponse ? "Following" : "Follow"}
                 </button>
                 <button className="button btn">
                   <img
@@ -130,10 +211,10 @@ const ProfilePageContent = () => {
               <strong>{numposts}</strong> posts
             </span>
             <span style={{ cursor: "pointer" }}>
-              <strong>{numfollowers}</strong> followers
+              <strong>{followers.length}</strong> followers
             </span>
             <span style={{ cursor: "pointer" }}>
-              <strong>{numfollowing}</strong> following
+              <strong>{following.length}</strong> following
             </span>
           </div>
           <div className="accname mt-3 d-flex flex-column gap-0">

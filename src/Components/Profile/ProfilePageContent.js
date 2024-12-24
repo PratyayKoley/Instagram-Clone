@@ -18,6 +18,8 @@ import ProfTaggedLight from "../../Icons (Light Mode)/ProfileTaggedLight.svg";
 import { DarkModeContext } from "../../App";
 import { useLocation } from "react-router-dom";
 import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
+import FollowersModal from "../Modals/FollowersModal";
+import FollowingModal from "../Modals/FollowingModal";
 
 const ProfilePageContent = () => {
   const { pathname } = useLocation();
@@ -170,13 +172,13 @@ const ProfilePageContent = () => {
             width: "65px",
             height: "65px",
             borderRadius: "50%",
-            border: "6px solid transparent", // Transparent border to create space for the spinner
-            borderTop: "6px solid #f09433", // Set the gradient color for the top border
-            borderRight: "6px solid #e6683c", // Add other gradient colors for the sides
+            border: "6px solid transparent",
+            borderTop: "6px solid #f09433", 
+            borderRight: "6px solid #e6683c",
             borderBottom: "6px solid #dc2743",
             borderLeft: "6px solid #cc2366",
-            animation: "spin 1.5s linear infinite", // Spinner animation
-            boxSizing: "border-box", // Ensure that the border is included in the total width/height
+            animation: "spin 1.5s linear infinite",
+            boxSizing: "border-box",
           }}
         ></div>
       </div>
@@ -234,10 +236,10 @@ const ProfilePageContent = () => {
             <span style={{ cursor: "pointer" }}>
               <strong>{numposts}</strong> posts
             </span>
-            <span style={{ cursor: "pointer" }}>
+            <span style={{ cursor: "pointer" }} data-bs-target="#followersModal" data-bs-toggle="modal">
               <strong>{followers.length}</strong> followers
             </span>
-            <span style={{ cursor: "pointer" }}>
+            <span style={{ cursor: "pointer" }} data-bs-target="#followingModal" data-bs-toggle="modal">
               <strong>{following.length}</strong> following
             </span>
           </div>
@@ -343,6 +345,8 @@ const ProfilePageContent = () => {
       </ul>
 
       <ProfilePosts activeTab={activeTab} userID={userId} />
+      <FollowersModal followersIDs={followers} />
+      <FollowingModal followingIDs={following} />
     </div>
   );
 };

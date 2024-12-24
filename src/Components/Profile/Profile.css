@@ -96,3 +96,11 @@
         transform: rotate(360deg);
     }
 }
+
+.remove-button{
+    background-color: rgb(54 54 54);
+}
+
+.remove-button:hover {
+    background-color: rgb(48, 48, 48);
+}

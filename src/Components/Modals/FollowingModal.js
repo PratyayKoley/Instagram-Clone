@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../App";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
-const FollowersModal = ({ followingIDs }) => {
+const FollowersModal = ({ followingIDs, currentUserID, username }) => {
     const [following, setFollowing] = useState([]);
     const DarkModeSetting = useContext(DarkModeContext);
+    const { userName } = useContext(UserInfoContext)
 
     useEffect(() => {
         const setFollowingData = async () => {
@@ -39,6 +41,35 @@ const FollowersModal = ({ followingIDs }) => {
             setFollowingData();
         }
     }, [followingIDs]);
+
+    const unfollow = async (followingId) => {
+        try {
+            const RequestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userToUnfollowID: followingId,
+                    currentUserID: currentUserID,
+                })
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/unfollow`, RequestOptions);
+            const data = await response.json();
+
+            if (!data.success) {
+                alert("Unable to unfollow the user.");
+            } else {
+                const updatedFollowers = following.filter((following) => following._id !== followingId);
+                setFollowing(updatedFollowers);
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error(error);
+            alert(`Error: ${error.message}`);
+        }
+    }
 
     return (
         <>
@@ -90,7 +121,7 @@ const FollowersModal = ({ followingIDs }) => {
                                                 <span className="fw-semibold text-muted" style={{ fontSize: '13px' }}>{follower.realname}</span>
                                             </div>
                                         </div>
-                                        <div className="btn remove-button me-2">Unfollow</div>
+                                        {userName === username && (<div className="btn remove-button me-2" onClick={() => unfollow(follower._id)}>Unfollow</div>)}
                                     </div>
                                 ))
                             ) : (

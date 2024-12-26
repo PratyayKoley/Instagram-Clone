@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../App";
+import { UserInfoContext } from "../ProtectedRoute/Protect_Component";
 
-const FollowersModal = ({ followersIDs }) => {
+const FollowersModal = ({ followersIDs, currentUserID, username }) => {
   const [followers, setFollowers] = useState([]);
   const DarkModeSetting = useContext(DarkModeContext);
+  const { userName } = useContext(UserInfoContext);
 
   useEffect(() => {
     const setFollowersData = async () => {
@@ -39,6 +41,37 @@ const FollowersModal = ({ followersIDs }) => {
       setFollowersData();
     }
   }, [followersIDs]);
+
+  const removeFollower = async (followerId) => {
+    console.log(followerId);
+    console.log(followers);
+    try {
+      const RequestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userToUnfollowID: currentUserID,
+          currentUserID: followerId
+        })
+      };
+
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/unfollow`, RequestOptions);
+      const data = await response.json();
+
+      if (!data.success) {
+        alert("Unable to unfollow the user.");
+      } else {
+        const updatedFollowers = followers.filter((follower) => follower._id !== followerId);
+        setFollowers(updatedFollowers);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+      alert(`Error: ${error.message}`);
+    }
+  }
 
   return (
     <>
@@ -90,7 +123,7 @@ const FollowersModal = ({ followersIDs }) => {
                         <span className="fw-semibold text-muted" style={{ fontSize: '13px' }}>{follower.realname}</span>
                       </div>
                     </div>
-                    <div className="btn remove-button me-2">Remove</div>
+                    {userName === username && (<div className="btn remove-button me-2" onClick={() => removeFollower(follower._id)}>Remove</div>)}
                   </div>
                 ))
               ) : (

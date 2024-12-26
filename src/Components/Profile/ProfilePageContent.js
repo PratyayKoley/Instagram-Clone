@@ -345,8 +345,8 @@ const ProfilePageContent = () => {
       </ul>
 
       <ProfilePosts activeTab={activeTab} userID={userId} />
-      <FollowersModal followersIDs={followers} />
-      <FollowingModal followingIDs={following} />
+      <FollowersModal followersIDs={followers} currentUserID={currentUserID} username={username} />
+      <FollowingModal followingIDs={following} currentUserID={currentUserID} username={username} />
     </div>
   );
 };

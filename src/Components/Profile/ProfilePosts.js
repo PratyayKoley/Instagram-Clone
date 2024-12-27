@@ -3,7 +3,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import { DarkModeContext } from "../../App";
 import DetailedPostsModal from "../Modals/DetailedPostsModal";
 
-const ProfilePosts = ({ activeTab, userID }) => {
+const ProfilePosts = ({ activeTab, userID, followersIDs, followingIDs, currentUserID }) => {
   const [profPosts, setProfPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const DarkModeSetting = useContext(DarkModeContext);
@@ -112,7 +112,7 @@ const ProfilePosts = ({ activeTab, userID }) => {
         </div>
       )}
 
-      <DetailedPostsModal selectedPost={selectedPost} />
+      <DetailedPostsModal selectedPost={selectedPost} followersIDs={followersIDs} followingIDs={followingIDs} currentUserID={currentUserID} />
     </>
   );
 };

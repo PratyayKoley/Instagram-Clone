@@ -16,13 +16,14 @@ import LikedRed from "../../Icons/LikedRed.svg";
 import { UserInfoContext } from '../ProtectedRoute/Protect_Component';
 import { Carousel } from 'react-bootstrap';
 
-const DetailedPostsModal = ({ selectedPost }) => {
+const DetailedPostsModal = ({ selectedPost, followersIDs, followingIDs, currentUserID }) => {
     const DarkModeSetting = useContext(DarkModeContext);
     const { userName } = useContext(UserInfoContext);
     const [newComment, setNewComment] = useState("");
     const [postUserName, setPostUserName] = useState("");
     const [comments, setComments] = useState([]);
     const [liked, setLiked] = useState(false);
+    const [likesData, setLikesData] = useState([]);
     const textareaRef = useRef(null);
     let formattedDate;
 
@@ -120,19 +121,43 @@ const DetailedPostsModal = ({ selectedPost }) => {
                 },
                 body: JSON.stringify({
                     post_id: selectedPost._id,
-                    liker_name: userName, 
+                    liker_id: currentUserID,
                 })
             }
 
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-post-like`, RequestOptions);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/isLiked`, RequestOptions);
 
             const data = await response.json();
 
-            if(!data.success){
+            if (!data.success) {
                 setLiked(false);
             } else {
                 setLiked(true);
             }
+        } catch (error) {
+            console.error("Error: ", error);
+            alert(error);
+        }
+    }
+
+    const getAllLikes = async () => {
+        try {
+            const RequestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ post_id: selectedPost._id })
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/get-all-likes`, RequestOptions);
+
+            const data = await response.json();
+
+            if (!data.success) {
+                alert("There was an error. No post found.");
+            }
+            setLikesData(data.likesData)
         } catch (error) {
             console.error("Error: ", error);
             alert(error);
@@ -144,6 +169,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
             getName();
             getAllComments();
             getLiked();
+            getAllLikes();
         }
     }, [selectedPost]);
 
@@ -165,7 +191,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                     },
                     body: JSON.stringify({
                         post_id: selectedPost._id,
-                        liker_name: userName,
+                        liker_id: currentUserID,
                     })
                 }
 
@@ -191,7 +217,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                     },
                     body: JSON.stringify({
                         post_id: selectedPost._id,
-                        liker_name: userName
+                        liker_id: currentUserID
                     })
                 }
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_LINK}/post-likes`, RequestOptions);
@@ -209,8 +235,6 @@ const DetailedPostsModal = ({ selectedPost }) => {
             }
         }
     }
-
-    console.log(liked);
 
     return (
         <div
@@ -329,13 +353,44 @@ const DetailedPostsModal = ({ selectedPost }) => {
                                     <img src={DarkModeSetting.darkMode ? Saved : SavedLight} alt="Save" style={{ cursor: "pointer" }} />
                                 </div>
                                 <div className="d-flex align-items-center gap-2">
-                                    <div style={{ cursor: "pointer" }}>
+                                    {/* <div style={{ cursor: "pointer" }}>
                                         <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
                                             alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%" }} />
                                         <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
                                             alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%", marginLeft: "-5px" }} />
-                                    </div>
-                                    <div style={{ fontSize: "14px" }}>Liked by <strong style={{ cursor: "pointer" }}>sahil_adak</strong> and <strong style={{ cursor: "pointer" }}>4 others</strong></div>
+                                    </div> */}
+                                    {likesData.length > 0 ? (
+                                        <div style={{ fontSize: "14px" }}>
+                                            {likesData.find(
+                                                (like) =>
+                                                    followersIDs.includes(like.user_id._id) ||
+                                                    followingIDs.includes(like.user_id._id)
+                                            ) ? (
+                                                <>
+                                                    Liked by{" "}
+                                                    <span className='fw-semibold' style={{ cursor: "pointer" }}>
+                                                        {likesData.find(
+                                                            (like) =>
+                                                                followersIDs.includes(like.user_id._id) ||
+                                                                followingIDs.includes(like.user_id._id)
+                                                        )?.user_id.username}
+                                                    </span>{" "}
+                                                    and{" "}
+                                                    <span className='fw-semibold' style={{ cursor: "pointer" }}>
+                                                        {likesData.length - 1} others
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <strong style={{ cursor: "pointer" }}>
+                                                        {likesData.length} likes
+                                                    </strong>
+                                                </>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        "Be the first one to like it"
+                                    )}
                                 </div>
                                 <div className='fw-normal text-muted mt-1' style={{ fontSize: "12px" }}>{formattedDate}</div>
                             </div>
@@ -360,7 +415,7 @@ const DetailedPostsModal = ({ selectedPost }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -101,8 +101,8 @@ const FollowersModal = ({ followingIDs, currentUserID, username }) => {
                         </div>
                         <div className="modal-body">
                             {following.length > 0 && (
-                                <form class="d-flex" role="search">
-                                    <input class="form-control me-2 w-100 fw-light fs-6" type="search" placeholder="Search" aria-label="Search" style={{ background: "rgb(54 54 54)" }} />
+                                <form className="d-flex" role="search">
+                                    <input className="form-control me-2 w-100 fw-light fs-6" type="search" placeholder="Search" aria-label="Search" style={{ background: "rgb(54 54 54)" }} />
                                 </form>
                             )}
 

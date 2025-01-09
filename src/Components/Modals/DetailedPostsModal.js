@@ -15,6 +15,7 @@ import EmojisLight from "../../Icons (Light Mode)/EmojisLight.svg";
 import LikedRed from "../../Icons/LikedRed.svg";
 import { UserInfoContext } from '../ProtectedRoute/Protect_Component';
 import { Carousel } from 'react-bootstrap';
+import LikesModal from './LikesModal';
 
 const DetailedPostsModal = ({ selectedPost, followersIDs, followingIDs, currentUserID }) => {
     const DarkModeSetting = useContext(DarkModeContext);
@@ -24,6 +25,7 @@ const DetailedPostsModal = ({ selectedPost, followersIDs, followingIDs, currentU
     const [comments, setComments] = useState([]);
     const [liked, setLiked] = useState(false);
     const [likesData, setLikesData] = useState([]);
+    const [likesModalOpen, setLikesModalOpen] = useState(false);
     const textareaRef = useRef(null);
     let formattedDate;
 
@@ -353,12 +355,12 @@ const DetailedPostsModal = ({ selectedPost, followersIDs, followingIDs, currentU
                                     <img src={DarkModeSetting.darkMode ? Saved : SavedLight} alt="Save" style={{ cursor: "pointer" }} />
                                 </div>
                                 <div className="d-flex align-items-center gap-2">
-                                    {/* <div style={{ cursor: "pointer" }}>
+                                    <div style={{ cursor: "pointer" }}>
                                         <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
                                             alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%" }} />
                                         <img src="https://pxboom.com/wp-content/uploads/2024/02/anime-insta-dp-boy.jpg"
                                             alt="Own_dp" style={{ objectFit: "cover", width: "25px", height: "25px", borderRadius: "50%", marginLeft: "-5px" }} />
-                                    </div> */}
+                                    </div>
                                     {likesData.length > 0 ? (
                                         <div style={{ fontSize: "14px" }}>
                                             {likesData.find(
@@ -376,7 +378,7 @@ const DetailedPostsModal = ({ selectedPost, followersIDs, followingIDs, currentU
                                                         )?.user_id.username}
                                                     </span>{" "}
                                                     and{" "}
-                                                    <span className='fw-semibold' style={{ cursor: "pointer" }}>
+                                                    <span className='fw-semibold' style={{ cursor: "pointer" }} onClick={() => setLikesModalOpen(true)}>
                                                         {likesData.length - 1} others
                                                     </span>
                                                 </>
@@ -415,6 +417,7 @@ const DetailedPostsModal = ({ selectedPost, followersIDs, followingIDs, currentU
                     </div>
                 </div>
             </div>
+            {likesModalOpen && <LikesModal setlikesModalOpen={setLikesModalOpen} likesData={likesData} />}
         </div >
     );
 };
